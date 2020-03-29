@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+*.swp
+*.swo
+*.swn
+.vagrant
+*.log
+*.retry
+
+# Bundler
+bin/*
+.bundle/*
+
+.ansiblepasswd.txt
