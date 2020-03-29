@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+. {
+  loadbalance round_robin
+  cache 
+  prometheus :9153
+  log
+  errors
+
+  # Don't use Google DNS
+  #forward . tls://8.8.8.8 tls://8.8.4.4 {
+  #  tls_servername dns.google
+  #  health_check 5s
+  #}
+
+  forward . tls://1.1.1.1 tls://1.0.0.1 {
+    tls_servername tls.cloudflare-dns.com
+  }
+
+  hosts {
+    {% for ip in internal_dns %}
+    {{ ip.ip }} {{ ip.host }}
+    {% endfor %}
+
+    fallthrough
+  }
+
+  
+}
+

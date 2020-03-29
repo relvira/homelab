@@ -1,0 +1,41 @@
+---
+#- file: path={{mysql_data_path}} state=directory mode=0700 owner={{process_uid}} recurse=true
+#- file: path={{mysql_conf_path}} state=directory mode=0700 owner={{process_uid}} recurse=true
+
+- name: mysql in docker
+  docker_container:
+    name: "{{mysql_hostname}}"
+    hostname: "{{mysql_hostname}}"
+    image: mysql
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    ports:
+      - 3306:3306
+    log_driver: syslog
+    log_opt:
+      tag: "mysql"
+    env:
+      PUID: "{{process_uid}}"
+      PGID: "{{process_gid}}"
+      MYSQL_ROOT_PASSWORD: "{{mysql_root_password}}"
+      TZ: "Europe/Madrid"
+    volumes:
+      - "{{mysql_data_path}}:/var/lib/mysql"
+      - "{{mysql_conf_path}}:/etc/mysql/conf.d"
+- name: Create MySQL group
+  group:
+    name: "{{mysql_group}}"
+    state: present
+    gid: "{{process_gid}}"
+
+- name: Create MySQL user
+  user:
+    name: "{{ mysql_user }}"
+    uid: "{{process_uid}}"
+    group: "{{mysql_group}}"
+    state: present

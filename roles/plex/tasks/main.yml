@@ -1,0 +1,18 @@
+---
+- file: path={{plex_storage_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path={{plex_transcode_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path={{plex_config_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+
+
+- name: Add Plex GPG key for package
+  apt_key:
+    url: https://downloads.plex.tv/plex-keys/PlexSign.key
+    state: present
+
+- name: Add Plex Repository
+  apt_repository:
+    repo: deb https://downloads.plex.tv/repo/deb public main
+    state: present
+
+- name: Update apt and install plexmediaserver
+  apt: update_cache=yes name=plexmediaserver state=latest

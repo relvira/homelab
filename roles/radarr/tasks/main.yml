@@ -1,0 +1,28 @@
+---
+- file: path={{radarr_config_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- name: radarr in docker
+  docker_container:
+    name: "{{radarr_hostname}}"
+    hostname: "{{radarr_hostname}}"
+    image: linuxserver/radarr
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{network_name}}"
+          ipv4_address: "{{ipaddr}}"
+    ports:
+        - 7878:7878
+    log_driver: syslog
+    log_opt:
+      tag: "radarr"
+    env:
+      PUID: "{{process_uid}}"
+      PGID: "{{process_gid}}"
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{radarr_config_path}}:/config"
+    - "/etc/localtime:/etc/localtime"
+    - "{{movies_path}}:/movies"
+    - "{{downloads_path}}:/downloads"

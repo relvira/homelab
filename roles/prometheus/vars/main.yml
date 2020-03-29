@@ -1,0 +1,84 @@
+---
+# Prometheus version and checksum configuration.
+prometheus_version: "2.15.2"
+prometheus_sha256: "579f800ec3ec2dc9a36d2d513e7800552cf6b0898f87a8abafd54e73b53f8ad0"
+# Prometheus alerting configuration.
+prometheus_alertmanagers:
+  - "anton.mad.etellez.net:9093"
+# Prometheus jobs configuration.
+prometheus_jobs:
+  - job: "node"
+    targets:
+      - "anton:9100"
+  - job: "prometheus"
+    scrape_interval: "5s"
+    targets:
+      - "anton:9090"
+  - job: "snmp"
+    path: "/snmp"
+    params:
+      module: [if_mib]
+    targets:
+      - "edge-router"
+      - "attic-ap"
+      - "livingroom-ap"
+    relabel_target: "anton:9116"
+  - job: "blackbox_http_2xx"
+    path: "/probe"
+    params:
+      module: [http_2xx]
+    targets:
+      - "https://grafana.etellez.net"
+      - "https://files.etellez.net/login"
+    relabel_target: "anton:9115"
+  - job: "blackbox_http_401"
+    path: "/probe"
+    params:
+      module: [http_401]
+    targets:
+      - "https://prometheus.etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_etelleznet"
+    scrape_interval: "1m"
+    path: "/probe"
+    params:
+      module: [http_2xx]
+    targets:
+      - "https://etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_ssh"
+    scrape_interval: "1m"
+    path: "/probe"
+    params:
+      module: [ssh_banner]
+    targets:
+      - "dub.etellez.net:22"
+      - "mad.etellez.net:22"
+    relabel_target: "anton:9115"
+  - job: "blackbox_exporter"
+    targets:
+      - "anton:9115"
+  - job: blackbox-ping
+    path: /probe
+    params:
+      module: [icmp]
+    targets:
+      - 8.8.8.8
+      - 1.1.1.1
+      - ipv4-c012-mad001-ix.1.oca.nflxvideo.net
+      - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net
+      - ipv4-c035-mad001-ix.1.oca.nflxvideo.net
+      - video-edge-c2b564.mad01.abs.hls.ttvnw.net
+      - r2---sn-h5q7kne6.googlevideo.com
+      - etellez.net
+    relabel_target: "anton:9115"
+  - job: "coredns"
+    targets:
+      - "anton:9153"
+prometheus_config: "/etc/prometheus"
+prometheus_data: "/var/lib/prometheus"
+prometheus_external_url: "https://prometheus.etellez.net"
+prometheus_dir: "prometheus-{{ prometheus_version }}.linux-amd64"
+prometheus_tmp: "/tmp/{{ prometheus_dir }}"
+prometheus_url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_dir }}.tar.gz"
+prometheus_tgz: "/tmp/prometheus.tar.gz"

@@ -1,0 +1,5 @@
+---
+
+ansible_environment: ret
+default_user: ret
+

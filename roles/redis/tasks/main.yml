@@ -1,0 +1,37 @@
+---
+- group:
+    name: "{{redis_group}}"
+    state: present
+    gid: "{{process_gid}}"
+
+- user:
+    name: "{{redis_user}}"
+    comment: "Nextcloud user"
+    uid: "{{process_uid}}"
+    group: "{{redis_group}}"
+    shell: /sbin/nologin
+
+- file: path={{redis_data_path}} state=directory mode=0770 owner={{redis_user}} group={{redis_group}} recurse=true
+
+- name: redis in docker
+  docker_container:
+    name: "{{redis_hostname}}"
+    hostname: "{{redis_hostname}}"
+    image: redis:latest
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    command: "redis-server --appendonly yes"
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    log_driver: syslog
+    user: "{{process_uid}}"
+    groups: "{{process_gid}}"
+    log_opt:
+      tag: "redis"
+    env:
+      TZ: "Europe/Madrid"
+    volumes:
+      - "{{redis_data_path}}:/data"

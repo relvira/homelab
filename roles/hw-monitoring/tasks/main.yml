@@ -1,0 +1,36 @@
+---
+- name: apt install sensors monitoring
+  apt:
+    pkg:
+      - hddtemp
+      - lm-sensors
+      - fancontrol
+
+- name: Copy fancontrol config
+  copy: src=fancontrol dest=/etc/fancontrol owner=root mode=0755
+
+- name: detect server sensors
+  become: true
+  command: sensors-detect --auto
+
+- name: Enable fancontrol service
+  become: true
+  systemd:
+    name: fancontrol
+    enabled: true
+    masked: false
+
+- name: start fancontrol service
+  become: true
+  command: systemctl start fancontrol
+
+- name: Enable hddtemp service
+  become: true
+  systemd:
+    name: hddtemp
+    enabled: true
+    masked: false
+
+- name: start hddtemp service
+  become: true
+  command: systemctl start hddtemp.service

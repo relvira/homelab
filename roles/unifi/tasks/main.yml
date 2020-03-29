@@ -1,0 +1,46 @@
+---
+
+- name: Create group for unifi
+  group:
+    gid: "{{process_gid}}"
+    name: "{{unifi_group}}"
+    state: present
+
+- name: Create user for unifi
+  user:
+    name: "{{unifi_user}}"
+    comment: "User for unifi"
+    uid: "{{process_uid}}"
+    group: "{{unifi_group}}"
+    shell: /sbin/nologin
+
+- file: path={{ unifi_conf_path }} state=directory mode=0755 owner={{process_uid}} recurse=true
+- name: Unifi controller container
+  docker_container:
+    name: "{{unifi_hostname}}"
+    hostname: "{{unifi_hostname}}"
+    image: linuxserver/unifi-controller
+    state: started
+    restart_policy: always
+    pull: true
+    ports:
+      - "3478:3478/udp"
+      - "10001:10001/udp"
+      - "8080:8080"
+      - "8081:8081"
+      - "8443:8443"
+      - "8880:8880"
+      - "6789:6789"
+    purge_networks: yes
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    env:
+      PGID: "{{process_gid}}"
+      PUID: "{{process_uid}}"
+      TZ: "Europe/Madrid"
+    log_driver: syslog
+    log_opt:
+      tag: "unifi"
+    volumes:
+      - "{{unifi_conf_path}}:/config"

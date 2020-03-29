@@ -1,0 +1,25 @@
+---
+- file: path=/shared/etc/php state=directory mode=0755 owner={{process_uid}} recurse=true
+- name: PHP-FPM in Docker
+  docker_container:
+    name: "{{php_hostname}}"
+    hostname: "{{php_hostname}}"
+    image: php:7.1.0-fpm
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{network_name}}"
+          ipv4_address: "{{ipaddr}}"
+    ports: 
+        - "{{php_bind_addr}}:9000:9000"
+    log_driver: syslog
+    log_opt:
+      tag: "php-fpm"
+    env:
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{php_config_path}}:/usr/local/etc"
+    - "{{php_storage_path}}:/var/www/html"
+

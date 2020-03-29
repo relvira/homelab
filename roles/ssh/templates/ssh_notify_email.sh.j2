@@ -1,0 +1,25 @@
+#!/bin/sh
+
+EMAIL_TO="{{ ssh_notify_email_to }}"
+EMAIL_FROM={{ ssh_notify_email_from }}""
+
+SUBJECT="SSH Login Notification - $PAM_SERVICE login on `hostname -f` for account $PAM_USER"
+
+MESSAGE="
+
+A user signed into your server through SSH.
+-------------------------------------------
+Username: ${PAM_USER}
+IP Address: ${PAM_RHOST}
+User: $PAM_USER
+Remote Host: ${PAM_RHOST}
+Service: ${PAM_SERVICE}
+TTY: ${PAM_TTY}
+Date: `date`
+Server: `uname -a`"
+
+if [ ${PAM_TYPE} = "open_session" ]; then
+        echo "${MESSAGE}" | mail -n -r "${EMAIL_FROM}" -s "${SUBJECT}" "${EMAIL_TO}"
+fi
+
+exit 0

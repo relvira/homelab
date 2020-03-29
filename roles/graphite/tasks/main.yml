@@ -1,0 +1,41 @@
+---
+- name: Create group for metrics
+  group:
+    gid: "{{process_gid}}"
+    name: "{{metrics_group}}"
+    state: present
+
+- name: Create user for metrics
+  user:
+    name: "{{metrics_user}}"
+    comment: "User for metrics"
+    uid: "{{process_uid}}"
+    group: "{{metrics_group}}"
+    shell: /sbin/nologin
+
+- file: path=/data/etc/graphite state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path=/data/graphite-storage state=directory mode=0755 owner={{process_uid}} recurse=true
+
+- name: Graphite + Carbon + statsd
+  docker_container:
+    name: "{{graphite_hostname}}"
+    hostname: "{{graphite_hostname}}"
+    image: hopsoft/graphite-statsd
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    ports:
+      - "{{graphite_addr}}:81:81"
+    log_driver: syslog
+    log_opt:
+      tag: "metrics"
+    env:
+      TZ: "Europe/Madrid"
+    volumes:
+      - "{{graphite_conf_path}}:/opt/graphite/conf"
+      - "{{graphite_storage_path}}:/opt/graphite/storage"
+      - "{{graphite_logs_path}}:/var/log"

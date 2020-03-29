@@ -1,0 +1,15 @@
+---
+
+- name: Create group for nginx
+  group:
+    gid: "{{process_gid}}"
+    name: "{{nginx_group}}"
+    state: present
+
+- name: Create user for nginx
+  user:
+    name: "{{nginx_user}}"
+    comment: "User for Nginx"
+    uid: "{{process_uid}}"
+    group: "{{nginx_group}}"
+    shell: /sbin/nologin

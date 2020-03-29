@@ -1,0 +1,28 @@
+---
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Install common packages (htop, vim, git,...)
+  apt:
+    pkg:
+    - python3
+    - python3-pip
+    - git-core
+    - unzip
+    - htop
+    - iotop
+    - vnstat
+    - vim
+    - mlocate
+    - net-tools
+    - nmap
+    - ntfs-3g
+    - screen
+    - ntpdate
+    - hdparm
+    - nginx
+    - mtr
+    - golang-go
+    - certbot

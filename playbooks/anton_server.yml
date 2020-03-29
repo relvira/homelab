@@ -1,0 +1,143 @@
+---
+- hosts: server
+  tasks:
+    - name: Create a group of all hosts by operating system
+      group_by: key={{ansible_distribution}}-{{ansible_distribution_version}}
+
+- hosts: server
+  become: true
+  roles:
+    - coredns
+    - common
+    - wd-disks
+    - hw-monitoring
+    - alertmanager
+    - prometheus
+    - node_exporter
+    - snmp_exporter
+    - blackbox_exporter
+    - {
+      role: ssh,
+      sudo: true,
+      ssh_notify_email_to: "relviratellez@gmail.com",
+      ssh_notify_email_from: "ops@etellez.net",
+      ssh_allow_user: "ret",
+      ssh_enable_email_notifications: false,
+      tags: ['ssh']
+    }
+    - {
+      role: nginx,
+      sudo: true,
+      nginx_user: "nginx",
+      nginx_group: "nginx",
+      process_uid: "1035",
+      process_gid: "1035",
+      tags: ['nginx']
+    }
+    - {
+      role: docker,
+      docknet: {
+        name: "privnet",
+        subnet: "172.16.51.0/24",
+        iprange: "172.16.51.32/28",
+        gateway: "172.16.51.1",
+        interface: "enp3s0"
+      }
+    }
+    - {
+      role: unifi,
+      unifi_hostname: "unifi-controller",
+      unifi_conf_path: "/data/etc/unifi",
+      process_uid: "1008",
+      process_gid: "1009",
+      unifi_user: "unifi",
+      unifi_group: "unifi",
+      ipaddr: "172.16.51.77",
+      network_name: "privnet"
+    }
+    - {
+      role: nextcloud,
+      nextcloud_hostname: "nextcloud",
+      nextcloud_base_path: "/var/www/html",
+      nextcloud_apps_path: "/data/nextcloud/apps",
+      nextcloud_config_path: "/data/etc/nextcloud",
+      nextcloud_data_path: "/raid/nextcloud-data",
+      nextcloud_php_path: "/data/etc/nextcloud/php",
+      process_uid: "33",
+      process_gid: "33",
+      nextcloud_user: "www-data",
+      nextcloud_group: "www-data",
+      ipaddr: "172.16.51.49",
+      network_name: "privnet",
+    }
+    - {
+      role: redis,
+      redis_hostname: "nextcloud-redis",
+      redis_data_path: "/var/cache/redis",
+      ipaddr: "172.16.51.32",
+      network_name: "privnet",
+      process_uid: 1011,
+      process_gid: 1012,
+      redis_user: "redis",
+      redis_group: "redis",
+    }
+    # - {
+    #   role: pihole,
+    #   pihole_hostname: "pihole",
+    #   pihole_config_path: "/shared/etc/pihole/config",
+    #   pihole_dnsmasq_path: "/shared/etc/pihole/dnsmasq",
+    #   process_uid: "1004",
+    #   process_gid: "1004",
+    #   ipaddr: "172.16.51.50",
+    #   network_name: "privnet"
+    # }
+    - {
+      role: sonarr,
+      sonarr_hostname: "sonarr",
+      sonarr_config_path: "/data/etc/sonarr",
+      tvshows_path: "/data/plex/tvshows",
+      downloads_path: "/data/torrent",
+      process_uid: "1002",
+      process_gid: "1003",
+      ipaddr: "172.16.51.91",
+      network_name: "privnet"
+    }
+    - {
+      role: transmission,
+      transmission_hostname: "torrent",
+      transmission_conf_path: "/data/etc/transmission",
+      transmission_download_path: "/data/torrent",
+      transmission_watch_path: "/data/etc/transmission/watch",
+      transmission_frontend_addr: "127.0.0.1",
+      process_uid: "1002",
+      process_gid: "1003",
+      transmission_user: "torrent",
+      transmission_group: "torrent",
+      ipaddr: "172.16.51.47",
+      network_name: "privnet",
+      tags: ['transmission']
+    }
+    - {
+      role: grafana,
+      grafana_hostname: "grafana",
+      grafana_conf_path: "/data/etc/grafana/etc/",
+      grafana_lib_path: "/data/etc/grafana/lib/",
+      grafana_addr: "127.0.0.1",
+      grafana_url: "grafana.etellez.net",
+      process_uid: 472,
+      process_gid: 1011,
+      metrics_user: metrics,
+      metrics_group: metrics,
+      ipaddr: "172.16.51.48",
+      network_name: "privnet"
+    }
+    - {
+      role: plex,
+      plex_config_path: "/data/etc/plex",
+      plex_transcode_path: "/tmp/plex/transcode",
+      plex_storage_path: "/data/plex",
+      process_uid: "1002",
+      process_gid: "1003",
+      plex_user: "torrent",
+      plex_group: "torrent"
+    }

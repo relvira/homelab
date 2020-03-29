@@ -1,0 +1,23 @@
+[Unit]
+Description=hd-idle daemon
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+
+ExecStartPre=-/usr/bin/killall hd-idle
+
+# Set disk spin-down time to:
+# 1800 seconds (30 minutes) for sda
+# 1200 seconds (20 minutes) for sdb
+# 0 (no spin-down) for other disks
+# See documentation at http://hd-idle.sourceforge.net/
+# Note the "-d" flag to ensure that hd-idle remains in foreground 
+# and can be managed by systemd
+ExecStart=/usr/local/sbin/hd-idle -d -i 0 -a sdd -i 180 -a sdc -i 180 -a sda -i 180
+
+ExecStop=/usr/bin/killall hd-idle
+
+[Install]
+WantedBy=multi-user.target

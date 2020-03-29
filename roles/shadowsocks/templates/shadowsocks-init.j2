@@ -1,0 +1,28 @@
+#! /bin/sh
+#  /etc/init.d/shadowsocks
+
+PIDFILE={{ shadowsocks_pid_file }}
+USER={{ shadowsocks_user }}
+DIR={{ shadowsocks_location }}
+LOG={{ shadowsocks_log_file }}
+
+case "$1" in
+  start)
+    echo "Starting Shadowsocks"
+    /usr/local/bin/ssserver --user $USER  --pid-file $PIDFILE -c $DIR/config.json --log-file $LOG -d start
+    ;;
+  stop)
+    echo "Stopping Shadowsocks"
+    /usr/local/bin/ssserver --user $USER  --pid-file $PIDFILE -c $DIR/config.json --log-file $LOG -d stop 
+    ;;
+  restart)
+    echo "Restarting Shadowsocks"
+    /usr/local/bin/ssserver --user $USER  --pid-file $PIDFILE -c $DIR/config.json --log-file $LOG -d restart 
+    ;;
+  *)
+    echo "Usage: /etc/init.d/shadowsocks {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0

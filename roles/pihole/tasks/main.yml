@@ -1,0 +1,32 @@
+---
+- file: path=/shared/etc/pihole/config state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path=/shared/etc/pihole/dnsmasq state=directory mode=0755 owner={{process_uid}} recurse=true
+- name: pihole in docker
+  docker_container:
+    name: "{{pihole_hostname}}"
+    hostname: "{{pihole_hostname}}"
+    image: pihole/pihole:latest
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{network_name}}"
+          ipv4_address: "{{ipaddr}}"
+    ports:
+      - "55:53/tcp"
+      - "55:53/udp"
+      - "67:67/udp"
+      - "8888:80/tcp"
+    log_driver: syslog
+    env:
+      pihole_UID: "{{process_uid}}"
+      pihole_GID: "{{process_gid}}"
+      VIRTUAL_HOST: "pihole.etellez.net"
+      TZ: "Europe/Madrid"
+    volumes:
+       - '{{pihole_config_path}}:/etc/pihole/'
+       - '{{pihole_dnsmasq_path}}:/etc/dnsmasq.d/'
+    dns_servers:
+      - 127.0.0.1
+      - 1.1.1.1

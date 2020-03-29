@@ -1,0 +1,132 @@
+---
+- name: check if installing a different version of coredns
+  tags:
+    - coredns
+  shell: "cat {{ coredns_config }}/.sha256"
+  ignore_errors: true
+  register: checksum
+
+- name: determine if coredns {{ coredns_version}} should be installed
+  tags:
+    - coredns
+  set_fact:
+    coredns_install: (checksum.stdout.find(coredns_sha256) == -1) or (coredns_force is defined)
+
+- name: download and checksum coredns {{ coredns_version }} {{host_golang_arch }} tarball
+  tags:
+    - coredns
+  when: coredns_install
+  get_url:
+    url: "{{ coredns_url }}"
+    dest: "{{ coredns_tgz }}"
+    checksum: "sha256:{{ coredns_sha256 }}"
+
+- name: unpack coredns tarball
+  tags:
+    - coredns
+  when: coredns_install
+  unarchive:
+    src: "{{ coredns_tgz }}"
+    dest: "/tmp/coredns"
+    copy: false
+
+- name: create coredns user
+  tags:
+    - coredns
+  when: coredns_install
+  user:
+    name: coredns
+    shell: "/bin/false"
+    comment: "coredns service user"
+
+- name: check if coredns service exists
+  tags:
+    - coredns
+  stat:
+    path: "/etc/systemd/system/coredns.service"
+  register: svccheck
+
+- name: stop coredns service if it exists
+  tags:
+    - coredns
+  when: svccheck.stat.exists
+  service:
+    name: coredns
+    state: stopped
+
+- name: copy coredns binaries to {{ host_bin_path }}
+  tags:
+    - coredns
+  when: coredns_install
+  command: "cp {{ coredns_tmp }}/{{ item }} {{ host_bin_path }}/"
+  with_items:
+    - "coredns"
+
+- name: set permissions on coredns binaries
+  tags:
+    - coredns
+  when: coredns_install
+  file:
+    path: "{{ host_bin_path }}/{{ item }}"
+    owner: coredns
+    group: coredns
+    mode: 0755
+  with_items:
+    - "coredns"
+
+- name: create coredns config directory
+  tags:
+    - coredns
+  when: coredns_install
+  file:
+    path: "{{ coredns_config }}"
+    state: directory
+    owner: coredns
+    group: coredns
+    mode: 0755
+
+- name: create coredns configuration
+  tags:
+    - coredns
+  template:
+    src: coredns.cnf.j2
+    dest: "{{ coredns_config }}/coredns.cnf"
+
+- name: create coredns systemd unit
+  tags:
+    - coredns
+  template:
+    src: coredns.service.j2
+    dest: "/etc/systemd/system/coredns.service"
+
+- name: reload systemd configurations
+  tags:
+    - coredns
+  command: "systemctl daemon-reload"
+
+- name: start coredns service
+  tags:
+    - coredns
+  service:
+    name: coredns
+    state: started
+    enabled: true
+
+- name: remove temporary coredns files
+  tags:
+    - coredns
+  when: coredns_install
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ coredns_tmp }}"
+    - "{{ coredns_tgz }}"
+
+- name: create checksum file for coredns {{ coredns_version }}
+  tags:
+    - coredns
+  when: coredns_install
+  template:
+    src: sha256.j2
+    dest: "{{ coredns_config }}/.sha256"

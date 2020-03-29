@@ -1,0 +1,31 @@
+---
+#handlers:
+  #  - name: restart sshd
+  #  service: name=sshd state=restarted
+
+- name: Generate ssh_notify_login file
+  become: true
+  template:
+    src: "ssh_notify_email.sh.j2"
+    dest: "{{ ssh_notify_login_path }}"
+    owner: "root"
+    group: "root"
+    mode: 755
+  when: ssh_enable_email_notifications == True
+
+  #- name: Generate PAM config file
+  #template:
+    #  src: "sshd_pam_config.j2"
+    #dest: "/etc/pam.d/sshd"
+    #owner: "root"
+    #group: "root"
+    #mode: 644
+- name: Generate sshd config file
+  become: true
+  template:
+    src: "sshd_config.j2"
+    dest: "/etc/ssh/sshd_config"
+    owner: "root"
+    group: "root"
+    mode: 700
+    #notify: restart sshd

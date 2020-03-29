@@ -1,0 +1,69 @@
+---
+- name: Copy fix script
+  copy: src=wd5741x64 dest=/tmp/wd5741x64 owner=root mode=0755
+
+  #- name: Execute WD HDD fix script for all compatible & unpatched HDD's
+  #become: yes
+  #command: /tmp/wd5741x64 -Dall
+
+- name: Copy hd-idle files
+  copy: src=hd-idle-1.04.tgz dest=/tmp/hd-idle-1.04.tgz owner=root mode=0777
+
+- name: Creates directory for hd-idle
+  file: path=/tmp/hd-idle state=directory
+
+- name: untar hd-idle
+  command: tar xvf /tmp/hd-idle-1.04.tgz -C /tmp/hd-idle
+
+- name: Install a list of packages
+  apt:
+    pkg:
+      - gcc
+      - smartmontools
+
+- name: make
+  args:
+    chdir: /tmp/hd-idle/hd-idle/
+  become: yes
+  command: make
+
+- name: make and install
+  args:
+    chdir: /tmp/hd-idle/hd-idle/
+  become: yes
+  command: make install
+
+- name: copy hd-idle service
+  copy: src=hd-idle.service dest=/etc/systemd/system/hd-idle.service owner=root mode=0755
+
+- name: enable service
+  become: yes
+  command: systemctl enable hd-idle
+
+- name: restart service
+  become: yes
+  command: systemctl restart hd-idle
+
+  #- name: Create directories for mounted WD Red hard drives
+  #file: path=/raid state=directory mode=0755 owner=root recurse=true
+
+  #- name: Create directories for mounted WD Red hard drives
+  #file: path=/data state=directory mode=0755 owner=root recurse=true
+
+- name: Create /etc/nginx symlink
+  file:
+    src: "/data/etc/nginx"
+    dest: "/etc/nginx"
+    state: link
+
+- name: Create collectd symlinks
+  file:
+    src: "/data/etc/collectd.conf"
+    dest: "/etc/collectd.conf"
+    state: link
+
+- name: create collectd symlink
+  file:
+    src: "/data/etc/collectd.d"
+    dest: "/etc/collectd.d"
+    state: link

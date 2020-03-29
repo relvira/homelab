@@ -1,0 +1,44 @@
+---
+- group:
+   name: "{{nextcloud_group}}"
+   state: present
+   gid: "{{process_gid}}"
+
+- user:
+   name: "{{nextcloud_user}}"
+   comment: "Nextcloud user"
+   uid: "{{process_uid}}"
+   group: "{{nextcloud_group}}"
+   shell: /sbin/nologin
+
+- file: path={{nextcloud_config_path}} state=directory mode=0775 owner=www-data group=www-data recurse=true
+- file: path={{nextcloud_base_path}} state=directory mode=0775 owner=www-data group=www-data recurse=true
+- file: path={{nextcloud_data_path}} state=directory mode=0770 owner=www-data group=www-data recurse=true
+- file: path={{nextcloud_php_path}} state=directory mode=0770 owner=www-data group=www-data recurse=true
+
+- name: nextcloud in docker
+  docker_container:
+    name: "{{nextcloud_hostname}}"
+    hostname: "{{nextcloud_hostname}}"
+    image: nextcloud:17-fpm
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: true
+    networks:
+     - name: "{{network_name}}"
+       ipv4_address: "{{ipaddr}}"
+    log_driver: syslog
+    log_opt:
+     tag: "nextcloud"
+    env:
+     PID: "{{process_uid}}"
+     GID: "{{process_gid}}"
+     TZ: "Europe/Madrid"
+     NEXTCLOUD_UPDATE: "1"
+    volumes:
+     - "{{nextcloud_base_path}}:/var/www/html"
+     - "{{nextcloud_apps_path}}:/var/www/html/custom_apps"
+     - "{{nextcloud_config_path}}:/var/www/html/config"
+     - "{{nextcloud_php_path}}:/usr/local/etc/"
+     - "{{nextcloud_data_path}}:/var/www/html/data"

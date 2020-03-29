@@ -1,0 +1,39 @@
+---
+- file: path={{grafana_conf_path}} state=directory mode=0777 owner={{process_uid}} recurse=true
+- file: path={{grafana_lib_path}} state=directory mode=0777 owner={{process_uid}} recurse=true
+
+
+- name: Create user for grafana
+  user:
+    name: "grafana"
+    comment: "User for grafana"
+    uid: "{{process_uid}}"
+    group: "{{process_gid}}"
+    shell: /sbin/nologin
+
+- name: Grafana frontend for metrics (Docker)
+  docker_container:
+    name: "{{grafana_hostname}}"
+    hostname: "{{grafana_hostname}}"
+    image: grafana/grafana:6.7.1-ubuntu
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    log_driver: syslog
+    log_opt:
+      tag: "grafana"
+    user: "{{process_uid}}"
+    groups: "{{process_gid}}"
+    env:
+      TZ: "Europe/Madrid"
+      GF_SERVER_DOMAIN: "grafana.etellez.net"
+      GF_SERVER_ROOT_URL: "https://grafana.etellez.net/"
+      GF_DISABLE_LOGIN_FORM: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    volumes:
+        #- "{{grafana_conf_path}}:/etc/grafana"
+      - "{{grafana_lib_path}}:/var/lib/grafana"

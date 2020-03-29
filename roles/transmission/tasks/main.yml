@@ -1,0 +1,46 @@
+---
+- name: Create group for transmission
+  group:
+    gid: "{{process_gid}}"
+    name: "{{transmission_group}}"
+    state: present
+
+- name: Create user for transmission
+  user:
+    name: "{{transmission_user}}"
+    comment: "User for Transmission"
+    uid: "{{process_uid}}"
+    group: "{{transmission_group}}"
+    shell: /sbin/nologin
+
+- file: path={{transmission_conf_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path={{transmission_download_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path={{transmission_watch_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+
+- name: Transmission for torrents
+  docker_container:
+    name: "{{transmission_hostname}}"
+    hostname: "{{transmission_hostname}}"
+    image: linuxserver/transmission
+    state: started
+    restart_policy: always
+    pull: true
+    ports:
+      - "{{transmission_frontend_addr}}:9091:9091"
+      - "51413:51413"
+      - "51413:51413/udp"
+    purge_networks: true
+    networks:
+      - name: "{{network_name}}"
+        ipv4_address: "{{ipaddr}}"
+    env:
+      PGID: "{{process_gid}}"
+      PUID: "{{process_uid}}"
+      TZ: "Europe/Madrid"
+    log_driver: syslog
+    log_opt:
+      tag: "transmission"
+    volumes:
+      - "{{transmission_conf_path}}:/config"
+      - "{{transmission_download_path}}:/downloads"
+      - "{{transmission_watch_path}}:/watch"
