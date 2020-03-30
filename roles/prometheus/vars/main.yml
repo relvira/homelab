@@ -71,6 +71,9 @@ prometheus_jobs:
       - video-edge-c2b564.mad01.abs.hls.ttvnw.net
       - r2---sn-h5q7kne6.googlevideo.com
       - etellez.net
+      - cloud.githubusercontent.com
+      - sea.github-debug.com
+      - iad.github-debug.com
     relabel_target: "anton:9115"
   - job: "coredns"
     targets:
