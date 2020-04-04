@@ -20,7 +20,7 @@
   docker_container:
     name: "{{nextcloud_hostname}}"
     hostname: "{{nextcloud_hostname}}"
-    image: nextcloud:17-fpm
+    image: nextcloud:18-fpm
     state: started
     restart_policy: always
     pull: true
