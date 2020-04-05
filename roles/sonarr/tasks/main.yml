@@ -12,7 +12,7 @@
     networks:
         - name: "{{network_name}}"
           ipv4_address: "{{ipaddr}}"
-    ports: 
+    ports:
         - 8989:8989
     log_driver: syslog
     log_opt:
@@ -25,4 +25,5 @@
     - "{{sonarr_config_path}}:/config"
     - "/etc/localtime:/etc/localtime"
     - "{{tvshows_path}}:/tv"
+    - "{{tvshows_es_path}}:/tv-es"
     - "{{downloads_path}}:/downloads"

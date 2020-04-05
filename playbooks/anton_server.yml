@@ -95,6 +95,7 @@
       sonarr_hostname: "sonarr",
       sonarr_config_path: "/data/etc/sonarr",
       tvshows_path: "/data/plex/tvshows",
+      tvshows_es_path: "/data/plex/tvshows-es",
       downloads_path: "/data/torrent",
       process_uid: "1002",
       process_gid: "1003",
