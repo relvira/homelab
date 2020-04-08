@@ -69,7 +69,7 @@ prometheus_jobs:
       - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net
       - ipv4-c035-mad001-ix.1.oca.nflxvideo.net
       - video-edge-c2b564.mad01.abs.hls.ttvnw.net
-      - r2---sn-h5q7kne6.googlevideo.com
+      - mad07s09-in-f3.1e100.net
       - etellez.net
       - cloud.githubusercontent.com
       - sea.github-debug.com
