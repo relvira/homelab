@@ -3,6 +3,7 @@ amd64:
   hosts:
     anton.mad.etellez.net:
     monitor.lhr.etellez.net:
+    minerva:
   vars:
     host_bin_path: "/usr/local/bin"
     host_golang_arch: "amd64"
@@ -10,6 +11,11 @@ amd64:
 server:
   hosts:
     anton.mad.etellez.net:
+      host_bin_path: "/usr/local/bin"
+      host_golang_arch: "amd64"
+      node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
+      blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
+    minerva:
       host_bin_path: "/usr/local/bin"
       host_golang_arch: "amd64"
       node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"

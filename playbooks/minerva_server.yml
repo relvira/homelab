@@ -1,0 +1,31 @@
+---
+- hosts: server
+  tasks:
+    - name: Create a group of all hosts by operating system
+      group_by: key={{ansible_distribution}}-{{ansible_distribution_version}}
+
+- hosts: server
+  become: true
+  roles:
+    - common
+    - hw-monitoring
+    - node_exporter
+    - {
+      role: ssh,
+      sudo: true,
+      ssh_notify_email_to: "relviratellez@gmail.com",
+      ssh_notify_email_from: "ops@etellez.net",
+      ssh_allow_user: "ret",
+      ssh_enable_email_notifications: false,
+      tags: ['ssh']
+    }
+    - {
+      role: docker,
+      docknet: {
+        name: "privnet",
+        subnet: "172.16.51.0/24",
+        iprange: "172.16.51.32/28",
+        gateway: "172.16.51.1",
+        interface: "enp5s0"
+      }
+    }
