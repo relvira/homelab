@@ -55,6 +55,7 @@ prometheus_jobs:
     targets:
       - "dub.etellez.net:22"
       - "mad.etellez.net:22"
+      - "minerva:22"
     relabel_target: "anton:9115"
   - job: "blackbox_exporter"
     targets:
@@ -75,6 +76,7 @@ prometheus_jobs:
       - cloud.githubusercontent.com
       - sea.github-debug.com
       - iad.github-debug.com
+      - minerva
     relabel_target: "anton:9115"
   - job: "coredns"
     targets:

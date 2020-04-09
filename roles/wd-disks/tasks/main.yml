@@ -49,21 +49,3 @@
 
   #- name: Create directories for mounted WD Red hard drives
   #file: path=/data state=directory mode=0755 owner=root recurse=true
-
-- name: Create /etc/nginx symlink
-  file:
-    src: "/data/etc/nginx"
-    dest: "/etc/nginx"
-    state: link
-
-- name: Create collectd symlinks
-  file:
-    src: "/data/etc/collectd.conf"
-    dest: "/etc/collectd.conf"
-    state: link
-
-- name: create collectd symlink
-  file:
-    src: "/data/etc/collectd.d"
-    dest: "/etc/collectd.d"
-    state: link

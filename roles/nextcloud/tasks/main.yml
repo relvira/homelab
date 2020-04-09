@@ -28,6 +28,8 @@
     networks:
      - name: "{{network_name}}"
        ipv4_address: "{{ipaddr}}"
+    ports:
+      - "9000:9000"
     log_driver: syslog
     log_opt:
      tag: "nextcloud"

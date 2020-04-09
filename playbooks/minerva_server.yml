@@ -4,7 +4,7 @@
     - name: Create a group of all hosts by operating system
       group_by: key={{ansible_distribution}}-{{ansible_distribution_version}}
 
-- hosts: server
+- hosts: minerva
   become: true
   roles:
     - common
@@ -28,4 +28,79 @@
         gateway: "172.16.51.1",
         interface: "enp5s0"
       }
+    }
+    - {
+      role: transmission,
+      transmission_hostname: "torrent",
+      transmission_conf_path: "/data/etc/transmission",
+      transmission_download_path: "/data/torrent",
+      transmission_watch_path: "/data/etc/transmission/watch",
+      transmission_frontend_addr: "192.168.79.7",
+      process_uid: "1002",
+      process_gid: "1003",
+      transmission_user: "torrent",
+      transmission_group: "torrent",
+      ipaddr: "172.16.51.47",
+      network_name: "privnet",
+      tags: ['transmission']
+    }
+    - {
+      role: plex,
+      plex_config_path: "/data/etc/plex",
+      plex_transcode_path: "/tmp/plex/transcode",
+      plex_storage_path: "/data/plex",
+      process_uid: "1002",
+      process_gid: "1003",
+      plex_user: "torrent",
+      plex_group: "torrent"
+    }
+    - {
+      role: nextcloud,
+      nextcloud_hostname: "nextcloud",
+      nextcloud_base_path: "/var/www/html",
+      nextcloud_apps_path: "/data/nextcloud/apps",
+      nextcloud_config_path: "/data/etc/nextcloud",
+      nextcloud_data_path: "/raid/nextcloud-data",
+      nextcloud_php_path: "/data/etc/nextcloud/php",
+      process_uid: "33",
+      process_gid: "33",
+      nextcloud_user: "www-data",
+      nextcloud_group: "www-data",
+      ipaddr: "172.16.51.49",
+      network_name: "privnet",
+    }
+    - {
+      role: redis,
+      redis_hostname: "nextcloud-redis",
+      redis_data_path: "/var/cache/redis",
+      ipaddr: "172.16.51.32",
+      network_name: "privnet",
+      process_uid: 1011,
+      process_gid: 1012,
+      redis_user: "redis",
+      redis_group: "redis",
+    }
+    - {
+      role: sonarr,
+      sonarr_hostname: "sonarr",
+      sonarr_config_path: "/data/etc/sonarr",
+      tvshows_path: "/data/plex/tvshows",
+      tvshows_es_path: "/data/plex/tvshows-es",
+      downloads_path: "/data/torrent",
+      process_uid: "1002",
+      process_gid: "1003",
+      ipaddr: "172.16.51.91",
+      network_name: "privnet"
+    }
+    - {
+      role: mysql,
+      mysql_hostname: "mysql",
+      mysql_conf_path: "/data/etc/mysql",
+      mysql_data_path: "/var/lib/mysql",
+      process_uid: "1009",
+      process_gid: "1010",
+      mysql_user: "mysql",
+      mysql_group: "mysql",
+      ipaddr: "172.16.51.92",
+      network_name: "privnet",
     }
