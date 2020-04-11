@@ -26,8 +26,8 @@
     pull: true
     purge_networks: true
     networks:
-     - name: "{{network_name}}"
-       ipv4_address: "{{ipaddr}}"
+     - name: "{{ nextcloud.network_name }}"
+       ipv4_address: "{{ nextcloud.ipaddr }}"
     ports:
       - "9000:9000"
     log_driver: syslog

@@ -7,22 +7,17 @@
 - hosts: anton
   become: true
   roles:
-    - coredns
     - common
+    - ssh
+    - coredns
     - hw-monitoring
     - prometheus
     - node_exporter
     - snmp_exporter
     - blackbox_exporter
-    - {
-      role: ssh,
-      sudo: true,
-      ssh_notify_email_to: "relviratellez@gmail.com",
-      ssh_notify_email_from: "ops@etellez.net",
-      ssh_allow_user: "ret",
-      ssh_enable_email_notifications: false,
-      tags: ['ssh']
-    }
+    - docker
+    - unifi
+    - grafana
     - {
       role: nginx,
       sudo: true,
@@ -31,39 +26,4 @@
       process_uid: "1035",
       process_gid: "1035",
       tags: ['nginx']
-    }
-    - {
-      role: docker,
-      docknet: {
-        name: "privnet",
-        subnet: "172.16.51.0/24",
-        iprange: "172.16.51.32/28",
-        gateway: "172.16.51.1",
-        interface: "enp3s0"
-      }
-    }
-    - {
-      role: unifi,
-      unifi_hostname: "unifi-controller",
-      unifi_conf_path: "/etc/unifi",
-      process_uid: "1008",
-      process_gid: "1009",
-      unifi_user: "unifi",
-      unifi_group: "unifi",
-      ipaddr: "172.16.51.77",
-      network_name: "privnet"
-    }
-    - {
-      role: grafana,
-      grafana_hostname: "grafana",
-      grafana_conf_path: "/etc/grafana/etc/",
-      grafana_lib_path: "/etc/grafana/lib/",
-      grafana_addr: "127.0.0.1",
-      grafana_url: "grafana.etellez.net",
-      process_uid: 472,
-      process_gid: 1011,
-      metrics_user: metrics,
-      metrics_group: metrics,
-      ipaddr: "172.16.51.48",
-      network_name: "privnet"
     }

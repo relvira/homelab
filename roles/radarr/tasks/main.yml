@@ -26,4 +26,4 @@
     - "/etc/localtime:/etc/localtime"
     - "{{ plex.movies_path }}:/movies"
     - "{{ plex.movies_es_path }}:/movies-es"
-    - "{{ plex.download_path }}:/downloads"
+    - "{{ transmission.download_path }}:/downloads"

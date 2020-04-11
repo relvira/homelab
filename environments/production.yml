@@ -24,6 +24,27 @@ server:
       node_exporter_use_textfile: false
       docknet:
         interface: "enp3s0"
+      unifi:
+        hostname: "unifi-controller"
+        conf_path: "/etc/unifi"
+        process_uid: "1008"
+        process_gid: "1009"
+        user: "unifi"
+        group: "unifi"
+        ipaddr: "172.16.51.77"
+        network_name: "privnet"
+      grafana:
+        hostname: "grafana"
+        conf_path: "/etc/grafana/etc/"
+        lib_path: "/etc/grafana/lib/"
+        addr: "127.0.0.1"
+        url: "grafana.etellez.net"
+        process_uid: 472
+        process_gid: 1011
+        user: metrics
+        group: metrics
+        ipaddr: "172.16.51.48"
+        network_name: "privnet"
     minerva:
       node_exporter_use_textfile: true
       docknet:
@@ -83,9 +104,20 @@ server:
         network_name: "privnet"
       sonarr:
         hostname: "sonarr"
+        config_path: "/data/etc/sonarr"
         ipaddr: "172.16.51.91"
         network_name: "privnet"
       radarr:
         hostname: "radarr"
+        config_path: "/data/etc/radarr"
         ipaddr: "172.16.51.93"
         network_name: "privnet"
+      redis: 
+        hostname: "nextcloud-redis"
+        data_path: "/var/cache/redis"
+        ipaddr: "172.16.51.32"
+        network_name: "privnet"
+        process_uid: 1011
+        process_gid: 1012
+        user: "redis"
+        group: "redis"

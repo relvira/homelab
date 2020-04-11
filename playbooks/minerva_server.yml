@@ -16,16 +16,6 @@
     - transmission
     - plex
     - nextcloud
-    - {
-      role: redis,
-      redis_hostname: "nextcloud-redis",
-      redis_data_path: "/var/cache/redis",
-      ipaddr: "172.16.51.32",
-      network_name: "privnet",
-      process_uid: 1011,
-      process_gid: 1012,
-      redis_user: "redis",
-      redis_group: "redis",
-    }
+    - redis
     - sonarr
     - radarr

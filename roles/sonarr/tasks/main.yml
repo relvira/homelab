@@ -24,6 +24,6 @@
     volumes:
     - "{{ sonarr.config_path }}:/config"
     - "/etc/localtime:/etc/localtime"
-    - "{{ plex.tvshows_path }}:/tv"
-    - "{{ plex.tvshows_es_path }}:/tv-es"
-    - "{{ tranmission.download_path }}:/downloads"
+    - "{{ plex.shows_path }}:/tv"
+    - "{{ plex.shows_es_path }}:/tv-es"
+    - "{{ transmission.download_path }}:/downloads"
