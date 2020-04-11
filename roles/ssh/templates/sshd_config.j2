@@ -20,15 +20,15 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 SyslogFacility AUTHPRIV
 
 # Authentication
-Port {{ ssh_port }}
-PermitRootLogin {{ 'yes' if (ssh_permit_root_login) else 'no' }}
-MaxAuthTries {{ ssh_max_auth_retries }}
-MaxSessions {{ ssh_max_sessions }}
-PubkeyAuthentication {{ 'yes' if (ssh_pubkey_auth) else 'no' }}
+Port {{ ssh.port }}
+PermitRootLogin {{ 'yes' if (ssh.permit_root_login) else 'no' }}
+MaxAuthTries {{ ssh.max_auth_retries }}
+MaxSessions {{ ssh.max_sessions }}
+PubkeyAuthentication {{ 'yes' if (ssh.pubkey_auth) else 'no' }}
 AuthorizedKeysFile      .ssh/authorized_keys
-AllowUsers {{ ssh_allow_user }}
+AllowUsers {{ ssh.allow_user }}
 PermitEmptyPasswords no
-PasswordAuthentication {{ 'yes' if (ssh_password_auth) else 'no' }}
+PasswordAuthentication {{ 'yes' if (ssh.password_auth) else 'no' }}
 
 ChallengeResponseAuthentication no
 

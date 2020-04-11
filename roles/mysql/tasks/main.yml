@@ -1,50 +1,43 @@
 ---
-- file: path={{mysql_data_path}} state=directory mode=0770 owner={{process_uid}} recurse=true
-- file: path={{mysql_conf_path}} state=directory mode=0777 owner={{process_uid}} recurse=true
+- file: path={{ mysql.data_path }} state=directory mode=0770 owner={{ mysql.process_uid }} recurse=true
+- file: path={{ mysql.conf_path }} state=directory mode=0777 owner={{ mysql.process_uid }} recurse=true
 
 - name: Create MySQL group
   group:
-    name: "{{mysql_group}}"
+    name: "{{ mysql.group }}"
     state: present
-    gid: "{{process_gid}}"
+    gid: "{{ mysql.process_gid }}"
 
 - name: Create MySQL user
   user:
-    name: "{{ mysql_user }}"
-    uid: "{{process_uid}}"
-    group: "{{mysql_group}}"
+    name: "{{ mysql.user }}"
+    uid: "{{ mysql.process_uid }}"
+    group: "{{ mysql.group }}"
     state: present
 
 - name: mysql in docker
   docker_container:
-    name: "{{mysql_hostname}}"
-    hostname: "{{mysql_hostname}}"
+    name: "{{ mysql.hostname }}"
+    hostname: "{{ mysql.hostname }}"
     image: mysql
     state: started
     restart_policy: always
     pull: true
     purge_networks: yes
     networks:
-      - name: "{{network_name}}"
-        ipv4_address: "{{ipaddr}}"
+      - name: "{{ mysql.network_name }}"
+        ipv4_address: "{{ mysql.ipaddr }}"
     ports:
       - 3306:3306
     log_driver: syslog
     log_opt:
       tag: "mysql"
     env:
-      PUID: "{{process_uid}}"
-      PGID: "{{process_gid}}"
-      MYSQL_ROOT_PASSWORD: !vault |
-        $ANSIBLE_VAULT;1.1;AES256
-        32633230306233386238376666656161663332646661636661313765643330643733353536633963
-        3862306666373531313365363031383361326431333265320a383164393731623434613430313065
-        32376534653866333935636266613439333436653230343064643534646135653333306539396561
-        3564346635343332350a313238653934393337376439346664653061373431353739663564636232
-        63396464363835376438373764393435353563623562316361623633633830386136343039356430
-        3563336363343535663834396631383238356134663366333538
+      PUID: "{{ mysql.process_uid }}"
+      PGID: "{{ mysql.process_gid }}"
+      mysql.ROOT_PASSWORD: "{{ mysql.root_password }}"
       TZ: "Europe/Madrid"
     volumes:
-      - "{{mysql_data_path}}:/var/lib/mysql"
-      - "{{mysql_conf_path}}:/etc/mysql/conf.d"
+      - "{{ mysql.data_path }}:/var/lib/mysql"
+      - "{{ mysql.conf_path }}:/etc/mysql/conf.d"
 

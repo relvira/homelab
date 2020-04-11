@@ -7,11 +7,11 @@
   become: true
   template:
     src: "ssh_notify_email.sh.j2"
-    dest: "{{ ssh_notify_login_path }}"
+    dest: "{{ ssh.notify_login_path }}"
     owner: "root"
     group: "root"
     mode: 755
-  when: ssh_enable_email_notifications == True
+  when: ssh.enable_email_notifications == True
 
   #- name: Generate PAM config file
   #template:

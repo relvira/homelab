@@ -19,7 +19,7 @@ session    include      postlogin
 # Used with polkit to reauthorize users in remote sessions
 -session   optional     pam_reauthorize.so prepare
 #auth required pam_google_authenticator.so nullok
-{% if ssh_enable_email_notifications %}
-session   optional      pam_exec.so {{ ssh_notify_login_path }}
+{% if ssh.enable_email_notifications %}
+session   optional      pam_exec.so {{ ssh.notify_login_path }}
 {% endif %}
 

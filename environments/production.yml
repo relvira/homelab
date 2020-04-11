@@ -1,23 +1,91 @@
 ---
 amd64:
   hosts:
-    anton.mad.etellez.net:
+    anton:
     minerva:
   vars:
     host_bin_path: "/usr/local/bin"
     host_golang_arch: "amd64"
     node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
+    blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
+    docknet:
+      name: "privnet"
+      subnet: "172.16.51.0/24"
+      iprange: "172.16.51.32/28"
+      gateway: "172.16.51.1"
+    ssh:
+      notify_email_to: "relviratellez@gmail.com"
+      notify_email_from: "ops@etellez.net"
+      allow_user: "ret"
+      enable_email_notifications: false
 server:
   hosts:
-    anton.mad.etellez.net:
-      host_bin_path: "/usr/local/bin"
-      host_golang_arch: "amd64"
-      node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
-      blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
+    anton:
       node_exporter_use_textfile: false
+      docknet:
+        interface: "enp3s0"
     minerva:
-      host_bin_path: "/usr/local/bin"
-      host_golang_arch: "amd64"
-      node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
-      blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
       node_exporter_use_textfile: true
+      docknet:
+        interface: "enp5s0"
+      mysql:
+        hostname: "mysql"
+        conf_path: "/data/etc/mysql"
+        data_path: "/var/lib/mysql"
+        process_uid: "1009"
+        process_gid: "1010"
+        user: "mysql"
+        group: "mysql"
+        ipaddr: "172.16.51.92"
+        network_name: "privnet"
+        root_password: !vault |
+                        $ANSIBLE_VAULT;1.1;AES256
+                        32633230306233386238376666656161663332646661636661313765643330643733353536633963
+                        3862306666373531313365363031383361326431333265320a383164393731623434613430313065
+                        32376534653866333935636266613439333436653230343064643534646135653333306539396561
+                        3564346635343332350a313238653934393337376439346664653061373431353739663564636232
+                        63396464363835376438373764393435353563623562316361623633633830386136343039356430
+                        3563336363343535663834396631383238356134663366333538
+      transmission:
+        hostname: "torrent"
+        conf_path: "/data/etc/transmission"
+        download_path: "/data/torrent"
+        watch_path: "/data/etc/transmission/watch"
+        frontend_addr: "192.168.79.7"
+        process_uid: "1002"
+        process_gid: "1003"
+        user: "torrent"
+        group: "torrent"
+        ipaddr: "172.16.51.47"
+        network_name: "privnet"
+      plex:
+        config_path: "/data/etc/plex"
+        transcode_path: "/tmp/plex/transcode"
+        library_path: "/data/plex/library"
+        movies_path: "/data/plex/movies"
+        shows_path: "/data/plex/tvshows"
+        movies_es_path: "/data/plex/movies-es"
+        shows_es_path: "/data/plex/tvshows-es"
+        user: "torrent"
+        group: "torrent"
+      nextcloud:
+        hostname: "nextcloud"
+        base_path: "/var/www/html"
+        apps_path: "/data/nextcloud/apps"
+        config_path: "/data/etc/nextcloud"
+        data_path: "/raid/nextcloud-data"
+        php_path: "/data/etc/nextcloud/php"
+        process_uid: "33"
+        process_gid: "33"
+        user: "www-data"
+        group: "www-data"
+        ipaddr: "172.16.51.49"
+        network_name: "privnet"
+      sonarr:
+        hostname: "sonarr"
+        ipaddr: "172.16.51.91"
+        network_name: "privnet"
+      radarr:
+        hostname: "radarr"
+        ipaddr: "172.16.51.93"
+        network_name: "privnet"

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-EMAIL_TO="{{ ssh_notify_email_to }}"
-EMAIL_FROM={{ ssh_notify_email_from }}""
+EMAIL_TO="{{ ssh.notify_email_to }}"
+EMAIL_FROM={{ ssh.notify_email_from }}""
 
 SUBJECT="SSH Login Notification - $PAM_SERVICE login on `hostname -f` for account $PAM_USER"
 

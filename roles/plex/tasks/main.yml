@@ -1,8 +1,18 @@
 ---
-- file: path={{plex_storage_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
-- file: path={{plex_transcode_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
-- file: path={{plex_config_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
-
+- name: Create + permissions for Plex transcode
+  file: path={{ plex.transcode_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex config path
+  file: path={{ plex.config_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex Movies ES
+  file: path={{ plex.movies_es_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex Movies
+  file: path={{ plex.movies_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex Shows
+  file: path={{ plex.shows_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex Shows ES
+  file: path={{ plex.shows_es_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: Create + permissions for Plex Library
+  file: path={{ plex.library_path }} state=directory mode=0755 owner=plex recurse=true
 
 - name: Add Plex GPG key for package
   apt_key:
@@ -16,3 +26,21 @@
 
 - name: Update apt and install plexmediaserver
   apt: update_cache=yes name=plexmediaserver state=latest
+
+- name: Replace library path in systemd
+  replace:
+    path: /lib/systemd/system/plexmediaserver.service
+    regexp: '/var/lib/plexmediaserver'
+    replace: "{{ plex.library_path }}"
+
+- name: Ansible replace string example
+  replace:
+    path: /lib/systemd/system/plexmediaserver.service
+    regexp: '/var/lib/plexmediaserver'
+    replace: "{{ plex.library_path }}"
+
+- name: Reload plexmediaserver + daemon reload to pickup changes
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: plexmediaserver

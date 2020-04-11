@@ -25,11 +25,13 @@ prometheus_jobs:
       - "livingroom-ap"
     relabel_target: "anton:9116"
   - job: "blackbox_http_2xx"
-    path: "/probe"
     params:
       module: [http_2xx]
     targets:
       - "https://grafana.etellez.net"
+      - "https://sonarr.etellez.net"
+      - "https://radarr.etellez.net"
+      - "https://donkey.etellez.net"
       - "https://files.etellez.net/login"
     relabel_target: "anton:9115"
   - job: "blackbox_http_401"
@@ -70,9 +72,7 @@ prometheus_jobs:
       - ipv4-c012-mad001-ix.1.oca.nflxvideo.net
       - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net
       - ipv4-c035-mad001-ix.1.oca.nflxvideo.net
-      - video-edge-c2b564.mad01.abs.hls.ttvnw.net
       - mad07s09-in-f3.1e100.net
-      - etellez.net
       - cloud.githubusercontent.com
       - sea.github-debug.com
       - iad.github-debug.com

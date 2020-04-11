@@ -4,7 +4,7 @@
     - name: Create a group of all hosts by operating system
       group_by: key={{ansible_distribution}}-{{ansible_distribution_version}}
 
-- hosts: server
+- hosts: anton
   become: true
   roles:
     - coredns

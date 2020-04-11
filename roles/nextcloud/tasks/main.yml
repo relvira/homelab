@@ -1,25 +1,25 @@
 ---
 - group:
-   name: "{{nextcloud_group}}"
+   name: "{{ nextcloud.group }}"
    state: present
-   gid: "{{process_gid}}"
+   gid: "{{ nextcloud.process_gid }}"
 
 - user:
-   name: "{{nextcloud_user}}"
+   name: "{{ nextcloud.user }}"
    comment: "Nextcloud user"
-   uid: "{{process_uid}}"
-   group: "{{nextcloud_group}}"
+   uid: "{{ nextcloud.process_uid }}"
+   group: "{{ nextcloud.group }}"
    shell: /sbin/nologin
 
-- file: path={{nextcloud_config_path}} state=directory mode=0775 owner=www-data group=www-data recurse=true
-- file: path={{nextcloud_base_path}} state=directory mode=0775 owner=www-data group=www-data recurse=true
-- file: path={{nextcloud_data_path}} state=directory mode=0770 owner=www-data group=www-data recurse=true
-- file: path={{nextcloud_php_path}} state=directory mode=0770 owner=www-data group=www-data recurse=true
+- file: path={{ nextcloud.config_path }} state=directory mode=0775 owner=www-data group=www-data recurse=true
+- file: path={{ nextcloud.base_path }} state=directory mode=0775 owner=www-data group=www-data recurse=true
+- file: path={{ nextcloud.data_path }} state=directory mode=0770 owner=www-data group=www-data recurse=true
+- file: path={{ nextcloud.php_path }} state=directory mode=0770 owner=www-data group=www-data recurse=true
 
 - name: nextcloud in docker
   docker_container:
-    name: "{{nextcloud_hostname}}"
-    hostname: "{{nextcloud_hostname}}"
+    name: "{{ nextcloud.hostname }}"
+    hostname: "{{ nextcloud.hostname }}"
     image: nextcloud:18-fpm
     state: started
     restart_policy: always
@@ -34,13 +34,13 @@
     log_opt:
      tag: "nextcloud"
     env:
-     PID: "{{process_uid}}"
-     GID: "{{process_gid}}"
+     PID: "{{ nextcloud.process_uid }}"
+     GID: "{{ nextcloud.process_gid }}"
      TZ: "Europe/Madrid"
-     NEXTCLOUD_UPDATE: "1"
+     NEXTCLOUD_UPDATE : "1"
     volumes:
-     - "{{nextcloud_base_path}}:/var/www/html"
-     - "{{nextcloud_apps_path}}:/var/www/html/custom_apps"
-     - "{{nextcloud_config_path}}:/var/www/html/config"
-     - "{{nextcloud_php_path}}:/usr/local/etc/"
-     - "{{nextcloud_data_path}}:/var/www/html/data"
+      - "{{ nextcloud.base_path }}:/var/www/html"
+      - "{{ nextcloud.apps_path }}:/var/www/html/custom_apps"
+      - "{{ nextcloud.config_path }}:/var/www/html/config"
+      - "{{ nextcloud.php_path }}:/usr/local/etc/"
+      - "{{ nextcloud.data_path }}:/var/www/html/data"

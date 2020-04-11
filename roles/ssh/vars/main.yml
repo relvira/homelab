@@ -1,11 +1,11 @@
 ---
-
-ssh_notify_email_from: "root@hostname.local"
-ssh_notify_login_path: "/opt/ssh_login_notify.sh"
-ssh_enable_email_notifications: false
-ssh_permit_root_login: false
-ssh_pubkey_auth: true
-ssh_password_auth: false
-ssh_max_auth_retries: 3
-ssh_max_sessions: 5
-ssh_port: 22
+ssh:
+  notify_email_from: "root@hostname.local"
+  notify_login_path: "/opt/login_notify.sh"
+  enable_email_notifications: false
+  permit_root_login: false
+  pubkey_auth: true
+  password_auth: false
+  max_auth_retries: 3
+  max_sessions: 5
+  port: 22

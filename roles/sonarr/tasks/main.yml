@@ -1,29 +1,29 @@
 ---
-- file: path={{sonarr_config_path}} state=directory mode=0755 owner={{process_uid}} recurse=true
+- file: path={{ sonarr.config_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
 - name: sonarr in docker
   docker_container:
-    name: "{{sonarr_hostname}}"
-    hostname: "{{sonarr_hostname}}"
+    name: "{{ sonarr.hostname }}"
+    hostname: "{{ sonarr.hostname }}"
     image: linuxserver/sonarr
     state: started
     restart_policy: always
     pull: true
     purge_networks: yes
     networks:
-        - name: "{{network_name}}"
-          ipv4_address: "{{ipaddr}}"
+        - name: "{{ sonarr.network_name }}"
+          ipv4_address: "{{ sonarr.ipaddr }}"
     ports:
         - 8989:8989
     log_driver: syslog
     log_opt:
       tag: "sonarr"
     env:
-      PUID: "{{process_uid}}"
-      PGID: "{{process_gid}}"
+      PUID: "{{ transmission.process_uid }}"
+      PGID: "{{ transmission.process_gid }}"
       TZ: "Europe/Madrid"
     volumes:
-    - "{{sonarr_config_path}}:/config"
+    - "{{ sonarr.config_path }}:/config"
     - "/etc/localtime:/etc/localtime"
-    - "{{tvshows_path}}:/tv"
-    - "{{tvshows_es_path}}:/tv-es"
-    - "{{downloads_path}}:/downloads"
+    - "{{ plex.tvshows_path }}:/tv"
+    - "{{ plex.tvshows_es_path }}:/tv-es"
+    - "{{ tranmission.download_path }}:/downloads"
