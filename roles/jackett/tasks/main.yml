@@ -1,0 +1,27 @@
+---
+- file: path={{ jackett.config_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: jackett in docker
+  docker_container:
+    name: "{{ jackett.hostname }}"
+    hostname: "{{ jackett.hostname }}"
+    image: linuxserver/jackett
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{ jackett.network_name }}"
+          ipv4_address: "{{ jackett.ipaddr }}"
+    ports:
+        - 9117:9117
+    log_driver: syslog
+    log_opt:
+      tag: "jackett"
+    env:
+      PUID: "{{ transmission.process_uid }}"
+      PGID: "{{ transmission.process_gid }}"
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{ jackett.config_path }}:/config"
+    - "/etc/localtime:/etc/localtime"
+    - "{{ transmission.download_path }}:/downloads"

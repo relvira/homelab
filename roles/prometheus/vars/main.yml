@@ -24,17 +24,38 @@ prometheus_jobs:
       - "attic-ap"
       - "livingroom-ap"
     relabel_target: "anton:9116"
-  - job: "blackbox_http_2xx"
+  - job: "blackbox_http_2xx_grafana"
     params:
       module: [http_2xx]
     targets:
       - "https://grafana.etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_http_2xx_sonarr"
+    params:
+      module: [http_2xx]
+    targets:
       - "https://sonarr.etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_http_2xx_radarr"
+    params:
+      module: [http_2xx]
+    targets:
       - "https://radarr.etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_http_2xx_torrent"
+    params:
+      module: [http_2xx]
+    targets:
       - "https://donkey.etellez.net"
+    relabel_target: "anton:9115"
+  - job: "blackbox_http_2xx_nextcloud"
+    path: "/probe"
+    params:
+      module: [http_2xx]
+    targets:
       - "https://files.etellez.net/login"
     relabel_target: "anton:9115"
-  - job: "blackbox_http_401"
+  - job: "blackbox_http_401_prometheus"
     path: "/probe"
     params:
       module: [http_401]
