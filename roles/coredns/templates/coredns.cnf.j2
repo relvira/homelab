@@ -19,6 +19,7 @@
   hosts {
     {% for ip in internal_dns %}
     {{ ip.ip }} {{ ip.host }}
+    {{ ip.ip }} {{ ip.host }}.{{ internal_domain }}
     {% endfor %}
 
     fallthrough
