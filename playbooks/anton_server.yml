@@ -12,6 +12,7 @@
     - coredns
     - hw-monitoring
     - prometheus
+    - alertmanager
     - node_exporter
     - snmp_exporter
     - blackbox_exporter

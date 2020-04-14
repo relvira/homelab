@@ -4,8 +4,8 @@ global:
   scrape_interval:     15s
   evaluation_interval: 15s
 
-#rule_files:
-#  - alerts.rules
+rule_files:
+  - alerts.rules
 
 scrape_configs:
 {% for job in prometheus_jobs %}
