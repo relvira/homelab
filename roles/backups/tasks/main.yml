@@ -1,0 +1,6 @@
+---
+
+- name: Install duplicity for backups
+  apt:
+    pkg:
+    - duplicity
