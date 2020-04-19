@@ -7,6 +7,9 @@ prometheus_alertmanagers:
   - "anton:9093"
 # Prometheus jobs configuration.
 prometheus_jobs:
+  - job: "apcupsd"
+    targets:
+      - "minerva:9162"
   - job: "node"
     targets:
       - "anton:9100"

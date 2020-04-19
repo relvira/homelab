@@ -48,6 +48,7 @@ server:
         ipaddr: "172.16.51.48"
         network_name: "privnet"
     minerva:
+      apcupsd_battery_date: "09/26/2019"
       node_exporter_use_textfile: true
       docknet:
         interface: "enp5s0"
@@ -119,7 +120,7 @@ server:
         config_path: "/storage/etc/jackett"
         ipaddr: "172.16.51.94"
         network_name: "privnet"
-      redis: 
+      redis:
         hostname: "nextcloud-redis"
         data_path: "/var/cache/redis"
         ipaddr: "172.16.51.32"

@@ -10,5 +10,7 @@
 # Bundler
 bin/*
 .bundle/*
-
+.vscode
+.vscode/
+.vscode/*
 .ansiblepasswd.txt

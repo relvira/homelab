@@ -1,6 +1,80 @@
 ---
-
-- name: Install duplicity for backups
-  apt:
-    pkg:
+- name: install packages required for backups
+  tags:
+    - backups
+  apt: pkg={{ item }} state=present
+  with_items:
     - duplicity
+    - python-paramiko
+    - mysql-client
+
+- name: Create backup temp folders
+  tags:
+    - backups
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0770
+    owner: root
+    recurse: true
+  with_items:
+    - "{{ backup_mysql_source_path }}"
+
+- name: Copy backups script
+  tags:
+      - backups
+  copy: src=my_backups.sh dest=/usr/local/bin/my_backups owner=root mode=0755
+
+- name: create my.cnf local conf
+  tags:
+    - backups
+  template:
+    src: my.cnf.j2
+    dest: "/root/.my.cnf"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Load variables intro cron
+  tags:
+      - backups
+  cronvar:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    cron_file: incremental_backups
+  with_items:
+    - name: BACKUP_GPG_ENC_KEY
+      value: "{{ backup_gpg_enc_key }}"
+    - name: BACKUP_GPG_PASSPHRASE
+      value: "{{ backup_gpg_passphrase }}"
+    - name: NEXTCLOUD_DATA_SOURCE_PATH
+      value: "{{ nextcloud.data_path }}"
+    - name: NEXTCLOUD_DATA_DEST_PATH
+      value: "{{ backup_nextcloud_dest_path }}"
+    - name: ETC_SOURCE_PATH
+      value: "{{ backup_etc_source_path }}"
+    - name: ETC_DEST_PATH
+      value: "{{ backup_etc_dest_path }}"
+    - name: MYSQL_SOURCE_PATH
+      value: "{{ backup_mysql_source_path }}"
+    - name: MYSQL_DEST_PATH
+      value: "{{ backup_mysql_dest_path }}"
+
+- name: Creates incremental_backups file under /etc/cron.d
+  tags:
+      - backups
+  cron:
+    name: incremental_backups
+    weekday: "*"
+    minute: "02"
+    hour: "11"
+    user: root
+    job: "bash /usr/local/bin/my_backups >> /var/log/incremental_backups.log 2>&1"
+    cron_file: incremental_backups
+
+- name: Change incremental_backups permissions
+  file:
+    path: /etc/cron.d/incremental_backups
+    owner: root
+    group: root
+    mode: '0640'

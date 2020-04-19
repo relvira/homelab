@@ -20,11 +20,11 @@
     - unifi
     - grafana
     - {
-      role: nginx,
-      sudo: true,
-      nginx_user: "nginx",
-      nginx_group: "nginx",
-      process_uid: "1035",
-      process_gid: "1035",
-      tags: ['nginx']
-    }
+        role: nginx,
+        sudo: true,
+        nginx_user: "nginx",
+        nginx_group: "nginx",
+        process_uid: "1035",
+        process_gid: "1035",
+        tags: ["nginx"],
+      }

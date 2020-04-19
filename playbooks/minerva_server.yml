@@ -10,6 +10,8 @@
     - common
     - ssh
     - hw-monitoring
+    - apcupsd
+    - apcupsd_exporter
     - node_exporter
     - docker
     - mysql
@@ -20,3 +22,4 @@
     - sonarr
     - radarr
     - jackett
+    - backups
