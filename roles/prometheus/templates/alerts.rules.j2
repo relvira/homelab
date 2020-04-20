@@ -3,9 +3,8 @@ groups:
 - name: default
   rules:
   - alert: InstanceDown
-    # rtorrent can be flappy and needs a longer interval.
     expr: up == 0
-    for: 2m
+    for: 1m
     labels:
       severity: critical
     annotations:
@@ -15,7 +14,7 @@ groups:
 {% endraw %}
   - alert: ServiceDown
     expr: probe_success == 0
-    for: 10m
+    for: 5m
     labels:
       severity: critical
     annotations:
