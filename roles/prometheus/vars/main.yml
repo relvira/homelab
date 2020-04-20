@@ -55,7 +55,7 @@ prometheus_jobs:
     targets:
       - "https://donkey.etellez.net"
     relabel_target: "anton:9115"
-  - job: "blackbox_http_2xx_nextcloud"
+  - job: "blackbox_http_401_nextcloud"
     path: "/probe"
     params:
       module: [http_401]
@@ -86,6 +86,14 @@ prometheus_jobs:
       - "dub.etellez.net:22"
       - "mad.etellez.net:22"
       - "minerva:22"
+    relabel_target: "anton:9115"
+  - job: "blackbox_mysql"
+    scrape_interval: "1m"
+    path: "/probe"
+    params:
+      module: [tcp_connect]
+    targets:
+      - "minerva:3306"
     relabel_target: "anton:9115"
   - job: "blackbox_exporter"
     targets:

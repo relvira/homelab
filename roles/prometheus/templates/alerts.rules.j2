@@ -40,3 +40,13 @@ groups:
 {% raw %}
       summary: "Disk usage on {{ $labels.instance }}:{{$labels.mountpoint}} ({{$labels.device}}) exceeds 75%."
 {% endraw %}
+  - alert: PowerOutage
+    expr: apcupsd_battery_time_on_seconds > 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+{% raw %}
+      summary: "Ongoing power outage for {{ $labels.instance }}, currently on batteries."
+      description: "{{ $labels.instance }} has been running out of batteries for more than 1 minute."
+{% endraw %}
