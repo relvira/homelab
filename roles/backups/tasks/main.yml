@@ -22,7 +22,7 @@
 
 - name: Copy backups script
   tags:
-      - backups
+    - backups
   copy: src=my_backups.sh dest=/usr/local/bin/my_backups owner=root mode=0755
 
 - name: create my.cnf local conf
@@ -33,11 +33,11 @@
     dest: "/root/.my.cnf"
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
 
 - name: Load variables intro cron
   tags:
-      - backups
+    - backups
   cronvar:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
@@ -59,10 +59,18 @@
       value: "{{ backup_mysql_source_path }}"
     - name: MYSQL_DEST_PATH
       value: "{{ backup_mysql_dest_path }}"
+    - name: WWW_SOURCE_PATH
+      value: "{{ backup_www_source_path }}"
+    - name: WWW_DEST_PATH
+      value: "{{ backup_www_dest_path }}"
+    - name: PLEX_LIB_SOURCE_PATH
+      value: "{{ backup_plex_lib_source_path }}"
+    - name: PLEX_LIB_DEST_PATH
+      value: "{{ backup_plex_lib_dest_path }}"
 
 - name: Creates incremental_backups file under /etc/cron.d
   tags:
-      - backups
+    - backups
   cron:
     name: incremental_backups
     weekday: "*"
@@ -77,4 +85,4 @@
     path: /etc/cron.d/incremental_backups
     owner: root
     group: root
-    mode: '0640'
+    mode: "0640"
