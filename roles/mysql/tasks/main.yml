@@ -32,6 +32,7 @@
     log_driver: syslog
     log_opt:
       tag: "mysql"
+    user: "{{mysql.process_uid}}:{{mysql.process_gid}}"
     env:
       PUID: "{{ mysql.process_uid }}"
       PGID: "{{ mysql.process_gid }}"

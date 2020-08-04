@@ -75,7 +75,7 @@
     name: incremental_backups
     weekday: "*"
     minute: "02"
-    hour: "11"
+    hour: "01"
     user: root
     job: "bash /usr/local/bin/my_backups >> /var/log/incremental_backups.log 2>&1"
     cron_file: incremental_backups
