@@ -9,6 +9,11 @@ coredns_tmp: "/tmp/coredns"
 coredns_url: "https://github.com/coredns/coredns/releases/download/v{{ coredns_version }}/{{ coredns_dir }}.tgz"
 coredns_tgz: "/tmp/coredns.tar.gz"
 
+# Forwarder
+use_google: false
+use_cloudflare: false
+use_nextdns: true
+
 # Internal DNS
 internal_dns:
   - ip: "192.168.79.1"

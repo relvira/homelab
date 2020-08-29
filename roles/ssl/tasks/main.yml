@@ -1,0 +1,20 @@
+---
+
+- name: Creates ssl_cert_renewal file under /etc/cron.d
+  tags:
+    - backups
+  cron:
+    name: ssl_cert_renewal
+    weekday: "*"
+    minute: "07"
+    hour: "05"
+    user: root
+    job: "certbot --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/dnscloudflare.ini renew >> /var/log/ssl_cert_renewal.log 2>&1 && systemctl reload nginx >> /var/log/ssl_cert_renewal.log 2>&1"
+    cron_file: ssl_cert_renewal
+
+- name: Change ssl_cert_renewal permissions
+  file:
+    path: /etc/cron.d/ssl_cert_renewal
+    owner: root
+    group: root
+    mode: "0640"

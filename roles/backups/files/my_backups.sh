@@ -29,9 +29,9 @@ PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity --use-agent \
       "$NEXTCLOUD_DATA_SOURCE_PATH" rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
 
 # Cleanup
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" cleanup --extra-clean --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity cleanup --extra-clean --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$NEXTCLOUD_DATA_DEST_PATH"
 
 echo "+ Duplicity completed for $NEXTCLOUD_DATA_SOURCE_PATH "
 ### End Nextcloud data ###
@@ -55,9 +55,9 @@ PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity --use-agent \
       "$MYSQL_SOURCE_PATH" rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
 
 # Cleanup
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" cleanup --extra-clean --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity cleanup --extra-clean --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$MYSQL_DEST_PATH"
 
 echo "+ Duplicity completed for $MYSQL_SOURCE_PATH "
 ### End MySQL ###
@@ -77,9 +77,9 @@ PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity --use-agent \
       "$ETC_SOURCE_PATH" rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
 
 # Cleanup
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" cleanup --extra-clean --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity cleanup --extra-clean --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$ETC_DEST_PATH"
 
 ### Start of www backup ###
 echo "+ Running Duplicity for $WWW_SOURCE_PATH "
@@ -93,9 +93,9 @@ PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity --use-agent \
       "$ETC_SOURCE_PATH" rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
 
 # Cleanup
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" cleanup --extra-clean --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity cleanup --extra-clean --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$WWW_DEST_PATH"
 
 echo "+ Duplicity completed for $WWW_SOURCE_PATH "
 ### End of www backup ###
@@ -112,9 +112,9 @@ PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity --use-agent \
       "$ETC_SOURCE_PATH" rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
 
 # Cleanup
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" cleanup --extra-clean --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
-PASSPHRASE="$BACKUP_GPG_PASSPHRASE" remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity cleanup --extra-clean --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
+PASSPHRASE="$BACKUP_GPG_PASSPHRASE" duplicity remove-all-but-n-full 2 --force rsync://ret@anton.home.ret/"$PLEX_LIB_DEST_PATH"
 
 echo "+ Duplicity completed for $PLEX_LIB_SOURCE_PATH "
 ### End of Plex library backup ###
