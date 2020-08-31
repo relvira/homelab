@@ -15,7 +15,7 @@
   docker_container:
     name: "{{ grafana.hostname }}"
     hostname: "{{ grafana.hostname }}"
-    image: grafana/grafana:6.7.1-ubuntu
+    image: grafana/grafana:7.1.5-ubuntu
     state: started
     restart_policy: always
     pull: true
