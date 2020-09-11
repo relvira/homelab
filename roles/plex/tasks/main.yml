@@ -29,17 +29,25 @@
 - name: Update apt and install plexmediaserver
   apt: update_cache=yes name=plexmediaserver state=latest
 
-- name: Replace library path in systemd
+- name: Update systemd user from plex to torrent
   replace:
     path: /lib/systemd/system/plexmediaserver.service
-    regexp: "/var/lib/plexmediaserver"
-    replace: "{{ plex.library_path }}"
+    regexp: "User=plex"
+    replace: "User=torrent"
 
-- name: Ansible replace string example
+- name: Update systemd group from plex to torrent
   replace:
     path: /lib/systemd/system/plexmediaserver.service
-    regexp: "/var/lib/plexmediaserver"
-    replace: "{{ plex.library_path }}"
+    regexp: "Group=plex"
+    replace: "Group=torrent"
+
+- name: symlink library to ZFS stored lib
+  file:
+    dest: "/var/lib/plexmediaserver/Library/Application Support"
+    src: "/storage/plex/library/Library/Application Support/"
+    owner: torrent
+    group: torrent
+    state: link
 
 - name: Reload plexmediaserver + daemon reload to pickup changes
   systemd:
