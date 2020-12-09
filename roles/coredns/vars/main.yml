@@ -34,5 +34,3 @@ internal_dns:
     host: "attic-ap"
   - ip: "192.168.79.12"
     host: "livingroom-ap"
-  - ip: "192.168.80.34"
-    host: "pidub"

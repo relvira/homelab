@@ -14,7 +14,7 @@ prometheus_jobs:
     targets:
       - "anton:9100"
       - "minerva:9100"
-      - "pidub:9100"
+      - "milhouse.dub.home:9100"
   - job: "prometheus"
     scrape_interval: "5s"
     targets:
@@ -24,9 +24,11 @@ prometheus_jobs:
     params:
       module: [if_mib]
     targets:
-      - "edge-router"
-      - "attic-ap"
-      - "livingroom-ap"
+      - "edge-router.dub.home"
+      - "livingroom-ap.dub.home"
+      - "edge-router.mad.home"
+      - "attic-ap.mad.home"
+      - "livingroom-ap.mad.home"
     relabel_target: "anton:9116"
   - job: "blackbox_http_2xx_grafana"
     path: "/probe"
@@ -70,21 +72,13 @@ prometheus_jobs:
     targets:
       - "https://prometheus.etellez.net"
     relabel_target: "anton:9115"
-  # - job: "blackbox_etelleznet"
-  #   scrape_interval: "1m"
-  #   path: "/probe"
-  #   params:
-  #     module: [http_2xx]
-  #   targets:
-  #     - "https://etellez.net"
-  #   relabel_target: "anton:9115"
   - job: "blackbox_ssh"
     scrape_interval: "1m"
     path: "/probe"
     params:
       module: [ssh_banner]
     targets:
-      - "dub.etellez.net:22"
+      - "milhouse.dub.home:22"
       - "mad.etellez.net:22"
       - "minerva:22"
     relabel_target: "anton:9115"
@@ -106,13 +100,11 @@ prometheus_jobs:
     targets:
       - 8.8.8.8
       - 1.1.1.1
+      - 45.90.28.152
       - ipv4-c012-mad001-ix.1.oca.nflxvideo.net
       - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net
       - ipv4-c035-mad001-ix.1.oca.nflxvideo.net
       - mad07s09-in-f3.1e100.net
-      - cloud.githubusercontent.com
-      - sea.github-debug.com
-      - iad.github-debug.com
       - minerva
       - dub.etellez.net
       - attic-ap
@@ -121,7 +113,7 @@ prometheus_jobs:
   - job: "coredns"
     targets:
       - "anton:9153"
-      - "pidub:9153"
+      - "milhouse.dub.home:9153"
 prometheus_config: "/etc/prometheus"
 prometheus_data: "/var/lib/prometheus"
 prometheus_external_url: "https://prometheus.etellez.net"
