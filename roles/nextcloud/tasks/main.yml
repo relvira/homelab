@@ -20,7 +20,7 @@
   docker_container:
     name: "{{ nextcloud.hostname }}"
     hostname: "{{ nextcloud.hostname }}"
-    image: nextcloud:19-fpm
+    image: nextcloud:20-fpm
     state: started
     restart_policy: always
     pull: true
@@ -40,7 +40,7 @@
      NEXTCLOUD_UPDATE : "1"
     volumes:
       - "{{ nextcloud.base_path }}:/var/www/html"
-      - "{{ nextcloud.apps_path }}:/var/www/html/custom_apps"
+      #- "{{ nextcloud.apps_path }}:/var/www/html/custom_apps"
       - "{{ nextcloud.config_path }}:/var/www/html/config"
       - "{{ nextcloud.php_path }}:/usr/local/etc/"
       - "{{ nextcloud.data_path }}:/var/www/html/data"
