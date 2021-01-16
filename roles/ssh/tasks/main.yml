@@ -5,6 +5,8 @@
 
 - name: Generate ssh_notify_login file
   become: true
+  tags:
+    - ssh
   template:
     src: "ssh_notify_email.sh.j2"
     dest: "{{ ssh.notify_login_path }}"
@@ -21,6 +23,8 @@
     #group: "root"
     #mode: 644
 - name: Generate sshd config file
+  tags:
+    - ssh
   become: true
   template:
     src: "sshd_config.j2"
@@ -29,3 +33,15 @@
     group: "root"
     mode: 700
     #notify: restart sshd
+    #
+- name: Create ssh_import_sync cron
+  tags:
+    - ssh
+  cron:
+    name: ssh_import_sync
+    weekday: "*"
+    minute: "*/5"
+    hour: "*"
+    user: ret
+    job: "ssh-import-id-gh relvira"
+    cron_file: ssh_import_sync
