@@ -2,11 +2,8 @@
 - name: install packages required for backups
   tags:
     - backups
-  apt: pkg={{ item }} state=present
-  with_items:
-    - duplicity
-    - python-paramiko
-    - mysql-client
+  apt:
+    pkg: ['duplicity', 'python3-paramiko', 'mysql-client']
 
 - name: Create backup temp folders
   tags:
@@ -43,9 +40,9 @@
     value: "{{ item.value }}"
     cron_file: incremental_backups
   with_items:
-    - name: BACKUP_GPG_ENC_KEY
-      value: "{{ backup_gpg_enc_key }}"
-    - name: BACKUP_GPG_PASSPHRASE
+    - name: GPG_KEY
+      value: "{{ backup_gpg_key }}"
+    - name: PASSPHRASE
       value: "{{ backup_gpg_passphrase }}"
     - name: NEXTCLOUD_DATA_SOURCE_PATH
       value: "{{ nextcloud.data_path }}"

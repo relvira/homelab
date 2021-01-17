@@ -11,9 +11,8 @@
   file: path={{ plex.shows_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
 - name: Create + permissions for Plex Shows ES
   file: path={{ plex.shows_es_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
-#- name: Create + permissions for Plex Library
-#  file: path={{ plex.library_path }} state=directory mode=0755 owner=plex recurse=true
-- command: "chown -R {{ transmission.process_uid }}:{{ transmission.process_gid }} {{ plex.library_path }}"
+- name: Create + permissions for Plex Library
+  command: "chown -R {{ transmission.process_uid }}:{{ transmission.process_gid }} {{ plex.library_path }}"
   changed_when: false
 
 - name: Add Plex GPG key for package
