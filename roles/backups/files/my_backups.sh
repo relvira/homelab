@@ -32,7 +32,7 @@ duplicity \
       "$NEXTCLOUD_DATA_SOURCE_PATH" rsync://ret@anton.mad.home/"$NEXTCLOUD_DATA_DEST_PATH"
 
 # Cleanup nextcloud data backups
-duplicity cleanup --extra-clean --force rsync://ret@anton.mad.home/"$NEXTCLOUD_DATA_DEST_PATH"
+duplicity cleanup --force rsync://ret@anton.mad.home/"$NEXTCLOUD_DATA_DEST_PATH"
 duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.mad.home/"$NEXTCLOUD_DATA_DEST_PATH"
 duplicity remove-all-but-n-full 2 --force rsync://ret@anton.mad.home/"$NEXTCLOUD_DATA_DEST_PATH"
 
@@ -57,7 +57,7 @@ duplicity \
       "$MYSQL_SOURCE_PATH" rsync://ret@anton.mad.home/"$MYSQL_DEST_PATH"
 
 # Cleanup MySQL backups
-duplicity cleanup --extra-clean --force rsync://ret@anton.mad.home/"$MYSQL_DEST_PATH"
+duplicity cleanup --force rsync://ret@anton.mad.home/"$MYSQL_DEST_PATH"
 duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.mad.home/"$MYSQL_DEST_PATH"
 duplicity remove-all-but-n-full 2 --force rsync://ret@anton.mad.home/"$MYSQL_DEST_PATH"
 
@@ -78,7 +78,7 @@ duplicity \
       "$ETC_SOURCE_PATH" rsync://ret@anton.mad.home/"$ETC_DEST_PATH"
 
 # Cleanup /etc backups
-duplicity cleanup --extra-clean --force rsync://ret@anton.mad.home/"$ETC_DEST_PATH"
+duplicity cleanup --force rsync://ret@anton.mad.home/"$ETC_DEST_PATH"
 duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.mad.home/"$ETC_DEST_PATH"
 duplicity remove-all-but-n-full 2 --force rsync://ret@anton.mad.home/"$ETC_DEST_PATH"
 
@@ -93,7 +93,7 @@ duplicity \
       "$ETC_SOURCE_PATH" rsync://ret@anton.mad.home/"$WWW_DEST_PATH"
 
 # Cleanup www backups
-duplicity cleanup --extra-clean --force rsync://ret@anton.mad.home/"$WWW_DEST_PATH"
+duplicity cleanup --force rsync://ret@anton.mad.home/"$WWW_DEST_PATH"
 duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.mad.home/"$WWW_DEST_PATH"
 duplicity remove-all-but-n-full 2 --force rsync://ret@anton.mad.home/"$WWW_DEST_PATH"
 
@@ -111,7 +111,7 @@ duplicity \
       "$ETC_SOURCE_PATH" rsync://ret@anton.mad.home/"$PLEX_LIB_DEST_PATH"
 
 # Cleanup plex backups
-duplicity cleanup --extra-clean --force rsync://ret@anton.mad.home/"$PLEX_LIB_DEST_PATH"
+duplicity cleanup --force rsync://ret@anton.mad.home/"$PLEX_LIB_DEST_PATH"
 duplicity remove-all-inc-of-but-n-full 2 --force rsync://ret@anton.mad.home/"$PLEX_LIB_DEST_PATH"
 duplicity remove-all-but-n-full 2 --force rsync://ret@anton.mad.home/"$PLEX_LIB_DEST_PATH"
 
