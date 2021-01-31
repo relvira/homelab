@@ -3,7 +3,8 @@ groups:
 - name: default
   rules:
   - alert: InstanceDown
-    expr: up == 0
+    # Exclude blackbox, as it's tracked in ServiceDown alert
+    expr: up{job!~".*blackbox.*"} == 0
     for: 1m
     labels:
       severity: critical
@@ -13,13 +14,14 @@ groups:
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
 {% endraw %}
   - alert: ServiceDown
-    expr: probe_success == 0
+    # Don't alert on ping failure by default, create separate alerts if needed
+    expr: probe_success{job!~"blackbox-ping"} == 0
     for: 5m
     labels:
       severity: critical
     annotations:
 {% raw %}
-      summary: "Service {{ $labels.instance }} is down."
+      summary: "{{ $labels.instance }} - {{ $labels.job }} is down."
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
 {% endraw %}
   - alert: TLSCertificateNearExpiration
@@ -49,4 +51,24 @@ groups:
 {% raw %}
       summary: "Ongoing power outage for {{ $labels.instance }}, currently on batteries."
       description: "{{ $labels.instance }} has been running out of batteries for more than 1 minute."
+{% endraw %}
+  - alert: "Wg tunnel down: DUB-MAD"
+    expr: probe_icmp_duration_seconds{job="blackbox-ping", phase="rtt", instance="192.168.1.1"} < 0.020
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+{% raw %}
+      summary: "edge-router.dub.home not reachable from Madrid via Wireguard tunnel for more than 1 minute."
+      description: "There's a site2site tunnel between DUB and MAD. This alert will fire if the tunnel served from edge-router.dub.home that gives MAD connectivity is down. This might be caused by edge-router firmware upgrades and such."
+{% endraw %}
+  - alert: "Wg tunnel down: MAD-DUB"
+    expr: probe_icmp_duration_seconds{job="blackbox-ping", phase="rtt", instance="192.168.30.6"} < 0.020
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+{% raw %}
+      summary: "edge-router.dub.home not reachable from Madrid via Wireguard reverse tunnel for more than 1 minute."
+      description: "There's a site2site tunnel between DUB and MAD. This alert will fire if the tunnel being served out of MAD can't reach devices in DUB. This might be caused by edge-router firmware upgrades and such."
 {% endraw %}
