@@ -98,19 +98,19 @@ prometheus_jobs:
     params:
       module: [icmp]
     targets:
-      - 8.8.8.8
-      - 1.1.1.1
-      - 45.90.28.152
-      - ipv4-c012-mad001-ix.1.oca.nflxvideo.net
-      - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net
-      - ipv4-c035-mad001-ix.1.oca.nflxvideo.net
-      - mad07s09-in-f3.1e100.net
+      - 8.8.8.8 # Google DNS
+      - 1.1.1.1 # CF DNS
+      - 45.90.28.152 # NextDNS
+      - ipv4-c012-mad001-ix.1.oca.nflxvideo.net # Netflix MAD
+      - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net # Netflix OCA Telefonica
+      - ipv4-c035-mad001-ix.1.oca.nflxvideo.net # Netflix MAD
+      - mad07s09-in-f3.1e100.net # Google Edge - MAD
       - minerva
-      - dub.etellez.net
+      - dub.etellez.net # DUB via public internet
       - attic-ap
       - livingroom-ap
-      - 192.168.1.1 #edge-router.dub.home
-      - milhouse.dub.home # DUB DNS resolver
+      - 192.168.1.1 # MAD-DUB edge-router.dub via wireguard
+      - 192.168.30.6 # DUB-MAD edge-router.dub via wireguard
     relabel_target: "anton:9115"
   - job: "coredns"
     targets:
