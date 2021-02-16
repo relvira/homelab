@@ -1,7 +1,7 @@
 ---
 # coredns version and checksum configuration.
-coredns_version: "1.6.9"
-coredns_sha256: "84f437bc8e270a9a309a807db40032250f5efb9e399cea3a66ba95f46d5fb6a9"
+coredns_version: "1.8.1"
+coredns_sha256: "bac3573274bb44545f6228d9d289fe9ae870fa78512ccd09b6a2971ec3eadca6"
 
 coredns_config: "/etc/coredns"
 coredns_dir: "coredns_{{ coredns_version }}_linux_amd64"
