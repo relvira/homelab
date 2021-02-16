@@ -26,6 +26,9 @@ prometheus_jobs:
     targets:
       - "edge-router.dub.home"
       - "livingroom-ap.dub.home"
+      - "office-ap.dub.home"
+      - "core-sw.dub.home"
+      - "utility-sw.dub.home"
       - "edge-router.mad.home"
       - "attic-ap.mad.home"
       - "livingroom-ap.mad.home"

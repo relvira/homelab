@@ -1,15 +1,41 @@
 ---
 
 - name: Create group for nginx
+  tags:
+    - nginx
   group:
     gid: "{{process_gid}}"
     name: "{{nginx_group}}"
     state: present
 
 - name: Create user for nginx
+  tags:
+    - nginx
   user:
     name: "{{nginx_user}}"
     comment: "User for Nginx"
     uid: "{{process_uid}}"
     group: "{{nginx_group}}"
     shell: /sbin/nologin
+
+- name: Copy NGINX CF IPs updater script
+  tags:
+    - nginx
+  copy: src=cf_ips_updater.sh dest=/usr/local/bin/cf_ips_updater owner=root mode=0755
+
+- name: Copy local networks ips conf
+  tags:
+    - nginx
+  copy: src=internal_ips.conf dest=/etc/nginx/includes/internal_ips.conf owner=nginx mode=0755
+
+- name: Creates nginx_cf_ips_updater file under /etc/cron.d
+  tags:
+    - nginx
+  cron:
+    name: nginx_cf_ips_updater
+    weekday: "*"
+    minute: "17"
+    hour: "*"
+    user: root
+    job: "bash /usr/local/bin/cf_ips_updater >> /var/log/cf_ips_updater.log 2>&1"
+    cron_file: nginx_cf_ips_updater
