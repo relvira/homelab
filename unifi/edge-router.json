@@ -82,6 +82,13 @@
                             ],
                             "persistent-keepalive": 60
                         },
+                        "vd6qU149n053v982+MNTaFkcf3JIlwp2srPj603k7EM=": {
+                            "allowed-ips": [
+                                "10.13.41.12/32",
+                                "10.13.41.1/32"
+                            ],
+                            "persistent-keepalive": 25
+                        },
                         "53RXsGwnBoFyH/tGFPFmSxz3iVwAcxN42aW8vI78UCM=": {
                             "allowed-ips": [
                                 "10.13.41.11/32"
