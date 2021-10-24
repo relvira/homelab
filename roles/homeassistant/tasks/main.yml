@@ -1,0 +1,41 @@
+---
+- name: Create homeassistant group
+  group:
+    name: "{{ homeassistant.group }}"
+    state: present
+    gid: "{{ homeassistant.process_gid }}"
+
+- name: Create homeassistant user
+  user:
+    name: "{{ homeassistant.user }}"
+    uid: "{{ homeassistant.process_uid }}"
+    group: "{{ homeassistant.group }}"
+    state: present
+
+- file: path={{ homeassistant.config_path }} state=directory mode=0755 owner={{ homeassistant.process_uid }} recurse=true
+
+- name: ahomeassistant in docker
+  docker_container:
+    name: "{{ homeassistant.hostname }}"
+    hostname: "{{ homeassistant.hostname }}"
+    image: homeassistant/home-assistant
+    state: started
+    restart_policy: unless-stopped
+    privileged: true
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{ homeassistant.network_name }}"
+          ipv4_address: "{{ homeassistant.ipaddr }}"
+    ports:
+        - 8123:8123
+    log_driver: syslog
+    log_opt:
+      tag: "homeassistant"
+    env:
+      PUID: "{{ homeassitant.process_uid }}"
+      PGID: "{{ homeassistant.process_gid }}"
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{ homeassistant.config_path }}:/config"
+    - "/etc/localtime:/etc/localtime"

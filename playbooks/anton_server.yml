@@ -21,6 +21,7 @@
     - docker
     - unifi
     - grafana
+    - homeassistant
     - {
         role: nginx,
         sudo: true,

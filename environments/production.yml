@@ -47,6 +47,15 @@ server:
         group: metrics
         ipaddr: "172.16.51.48"
         network_name: "privnet"
+      homeassistant:
+        hostname: "homeassistant-dublin"
+        config_path: "/storage/etc/homeassistant"
+        ipaddr: "172.16.51.95"
+        network_name: "privnet"
+        process_uid: 1015
+        process_gid: 1016
+        user: "homeassistant"
+        group: "homeassistant"
     minerva:
       apcupsd_battery_date: "09/26/2019"
       node_exporter_use_textfile: true
