@@ -1,4 +1,23 @@
 ---
+aarch64:
+  hosts:
+    milhouse.dub.home:
+  vars:
+    host_bin_path: "/usr/local/bin"
+    host_golang_arch: "arm64"
+    node_exporter_sha256: "b78464d8bd1b770a7f818d20c78410090f64a91b13577f1883dca1eec5aedbc9"
+    coredns_sha256: "e6e4667c237e3355c3a611c1dc59e3fc83a49c23d1034a8c1bb14a0aebf8410e"
+    internal_domain: "mad.home"
+    docknet:
+      name: "privnet"
+      subnet: "172.16.51.0/24"
+      iprange: "172.16.51.32/28"
+      gateway: "172.16.51.1"
+    ssh:
+      notify_email_to: "relviratellez@gmail.com"
+      notify_email_from: "ops@etellez.net"
+      allow_user: "ret"
+      enable_email_notifications: false
 amd64:
   hosts:
     anton:
@@ -6,9 +25,10 @@ amd64:
   vars:
     host_bin_path: "/usr/local/bin"
     host_golang_arch: "amd64"
-    node_exporter_sha256: "b2503fd932f85f4e5baf161268854bf5d22001869b84f00fd2d1f57b51b72424"
+    node_exporter_sha256: "344bd4c0bbd66ff78f14486ec48b89c248139cdd485e992583ea30e89e0e5390"
     blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
     alertmanager_sha256: "3a826321ee90a5071abf7ba199ac86f77887b7a4daa8761400310b4191ab2819"
+    coredns_sha256: "d79e004bdab367b9dc88542297d177b6530aa1c2222b9102413f87ed8cac0ee0"
     internal_domain: "mad.home"
     docknet:
       name: "privnet"
@@ -22,7 +42,53 @@ amd64:
       enable_email_notifications: false
 server:
   hosts:
+    milhouse.dub.home:
+      internal_domain: "dub.home"
+      internal_dns:
+        - ip: "192.168.1.1"
+          host: "edge-router"
+        - ip: "192.168.1.3"
+          host: "milhouse"
+        - ip: "192.168.79.5"
+          host: "livingroom-ap"
+        - ip: "192.168.79.9"
+          host: "office-ap"
+        - ip: "192.168.79.2"
+          host: "core-sw"
+        - ip: "192.168.79.4"
+          host: "utility-sw"
+      node_exporter_use_textfile: false
+      docknet:
+        interface: "enp3s0"
+      unifi:
+        hostname: "unifi"
+        conf_path: "/etc/unifi"
+        process_uid: "1008"
+        process_gid: "1009"
+        user: "unifi"
+        group: "unifi"
+        ipaddr: "172.16.51.77"
+        network_name: "privnet"
     anton:
+      internal_dns:
+        - ip: "192.168.79.1"
+          host: "edge-router"
+        - ip: "192.168.79.6"
+          host: "anton"
+        - ip: "192.168.79.6"
+          host: "grafana"
+        - ip: "192.168.79.6"
+          host: "coredns"
+        - ip: "192.168.79.6"
+          host: "monitor"
+        - ip: "192.168.79.5"
+          host: "attic-sw"
+        - ip: "192.168.79.7"
+          host: "minerva"
+        - ip: "192.168.79.11"
+          host: "attic-ap"
+        - ip: "192.168.79.12"
+          host: "livingroom-ap"
       node_exporter_use_textfile: false
       docknet:
         interface: "enp3s0"

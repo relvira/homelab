@@ -1,10 +1,9 @@
 ---
 # coredns version and checksum configuration.
-coredns_version: "1.8.1"
-coredns_sha256: "bac3573274bb44545f6228d9d289fe9ae870fa78512ccd09b6a2971ec3eadca6"
+coredns_version: "1.8.6"
 
 coredns_config: "/etc/coredns"
-coredns_dir: "coredns_{{ coredns_version }}_linux_amd64"
+coredns_dir: "coredns_{{ coredns_version }}_linux_{{ host_golang_arch }}"
 coredns_tmp: "/tmp/coredns"
 coredns_url: "https://github.com/coredns/coredns/releases/download/v{{ coredns_version }}/{{ coredns_dir }}.tgz"
 coredns_tgz: "/tmp/coredns.tar.gz"
@@ -14,23 +13,3 @@ use_google: false
 use_cloudflare: false
 use_nextdns: true
 
-# Internal DNS
-internal_dns:
-  - ip: "192.168.79.1"
-    host: "edge-router"
-  - ip: "192.168.79.6"
-    host: "anton"
-  - ip: "192.168.79.6"
-    host: "grafana"
-  - ip: "192.168.79.6"
-    host: "coredns"
-  - ip: "192.168.79.6"
-    host: "monitor"
-  - ip: "192.168.79.5"
-    host: "attic-sw"
-  - ip: "192.168.79.7"
-    host: "minerva"
-  - ip: "192.168.79.11"
-    host: "attic-ap"
-  - ip: "192.168.79.12"
-    host: "livingroom-ap"

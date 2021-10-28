@@ -1,0 +1,24 @@
+---
+- hosts: server
+  tasks:
+    - name: Create a group of all hosts by operating system
+      group_by: key={{ansible_distribution}}-{{ansible_distribution_version}}
+
+- hosts: milhouse.dub.home
+  become: true
+  roles:
+    - common
+    - ssh
+    - coredns
+    - node_exporter
+    - docker
+    - unifi
+    - {
+        role: nginx,
+        sudo: true,
+        nginx_user: "nginx",
+        nginx_group: "nginx",
+        process_uid: "1035",
+        process_gid: "1035",
+        tags: ["nginx"],
+      }

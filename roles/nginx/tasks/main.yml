@@ -18,6 +18,14 @@
     group: "{{nginx_group}}"
     shell: /sbin/nologin
 
+- name: Creates includes directory
+  file:
+    path: /etc/nginx/includes
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0775
+
 - name: Copy NGINX CF IPs updater script
   tags:
     - nginx
