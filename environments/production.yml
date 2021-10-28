@@ -49,13 +49,13 @@ server:
           host: "edge-router"
         - ip: "192.168.1.3"
           host: "milhouse"
-        - ip: "192.168.79.5"
+        - ip: "192.168.1.5"
           host: "livingroom-ap"
-        - ip: "192.168.79.9"
+        - ip: "192.168.1.9"
           host: "office-ap"
-        - ip: "192.168.79.2"
+        - ip: "192.168.1.2"
           host: "core-sw"
-        - ip: "192.168.79.4"
+        - ip: "192.168.1.4"
           host: "utility-sw"
       node_exporter_use_textfile: false
       docknet:
