@@ -1,0 +1,29 @@
+---
+- file: path={{ homebridge.config_path }} state=directory mode=0755 owner={{ homebridge.process_uid }} recurse=true
+- name: homebridge in docker
+  docker_container:
+    name: "{{ homebridge.hostname }}"
+    hostname: "{{ homebridge.hostname }}"
+    image: oznu/homebridge:latest
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{ homebridge.network_name }}"
+          ipv4_address: "{{ homebridge.ipaddr }}"
+    ports:
+        - 8581:8581
+        - 52440:52440
+    log_driver: syslog
+    log_opt:
+      tag: "homebridge"
+    env:
+      PUID: "{{ homebridge.process_uid }}"
+      PGID: "{{ homebridge.process_gid }}"
+      HOMEBRIDGE_CONFIG_UI: "1"
+      HOMEBRIDGE_CONFIG_UI_PORT: "8581"
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{ homebridge.config_path }}:/homebridge"
+    - "/etc/localtime:/etc/localtime"

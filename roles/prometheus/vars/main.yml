@@ -83,6 +83,7 @@ prometheus_jobs:
     targets:
       - "milhouse.dub.home:22"
       - "mad.etellez.net:22"
+      - "irene.etellez.net:22"
       - "minerva:22"
     relabel_target: "anton:9115"
   - job: "blackbox_mysql"
@@ -110,6 +111,7 @@ prometheus_jobs:
       - mad07s09-in-f3.1e100.net # Google Edge - MAD
       - minerva
       - dub.etellez.net # DUB via public internet
+      - irene.etellez.net # Irene via public internet
       - attic-ap
       - livingroom-ap
       - 192.168.1.1 # MAD-DUB edge-router.dub via wireguard

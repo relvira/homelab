@@ -12,6 +12,7 @@
     - coredns
     - node_exporter
     - docker
+    - homebridge
     - unifi
     - {
         role: nginx,

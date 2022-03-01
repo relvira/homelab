@@ -28,7 +28,7 @@ amd64:
     node_exporter_sha256: "344bd4c0bbd66ff78f14486ec48b89c248139cdd485e992583ea30e89e0e5390"
     blackbox_exporter_sha256: "73a702f03f9955c2469226c33a35df7fc22f3051663166f10458f220dc48b8f9"
     alertmanager_sha256: "3a826321ee90a5071abf7ba199ac86f77887b7a4daa8761400310b4191ab2819"
-    coredns_sha256: "d79e004bdab367b9dc88542297d177b6530aa1c2222b9102413f87ed8cac0ee0"
+    coredns_sha256: "b97ce1a3ca01a0f5687dbc825ed4d8fd3ec14ed71b3abe0bc8b9bcc4cc4d337b"
     internal_domain: "mad.home"
     docknet:
       name: "privnet"
@@ -51,7 +51,7 @@ server:
           host: "milhouse"
         - ip: "192.168.1.5"
           host: "livingroom-ap"
-        - ip: "192.168.1.9"
+        - ip: "192.168.1.225"
           host: "office-ap"
         - ip: "192.168.1.2"
           host: "core-sw"
@@ -69,6 +69,15 @@ server:
         group: "unifi"
         ipaddr: "172.16.51.77"
         network_name: "privnet"
+      homebridge:
+        hostname: "homebridge"
+        config_path: "/etc/homebridge"
+        ipaddr: "172.16.51.92"
+        network_name: "privnet"
+        process_uid: "1010"
+        process_gid: "1011"
+        user: "homebridge"
+        group: "homebridge"
     anton:
       internal_dns:
         - ip: "192.168.79.1"
