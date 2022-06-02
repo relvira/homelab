@@ -62,3 +62,13 @@ groups:
       summary: "edge-router.dub.home not reachable from Madrid via Tailscale network for more than 1 minute."
       description: "milhouse in DUB exposes the local network subnet to make it reachable from Madrid and remote locations. Tailscale network could be down or some other issue with milhouse.dub.home."
 {% endraw %}
+  - alert: "Tailscale: Irene-MAD not reachable from MAD"
+    expr: probe_icmp_duration_seconds{job="blackbox-ping", phase="rtt", instance="100.86.115.115"} < 0.005
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+{% raw %}
+      summary: "smithers.irene.mad.home not reachable from Madrid via Tailscale network for more than 1 minute."
+      description: "smithers in irene.mad exposes the local network subnet to make it reachable from Madrid and remote locations. Tailscale network could be down or some other issue with smithers.irene.mad.home."
+{% endraw %}

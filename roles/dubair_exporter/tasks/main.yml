@@ -1,0 +1,64 @@
+---
+- name: create dubair_exporter user
+  tags:
+    - dubair_exporter
+  user:
+    name: dubair_exporter
+    shell: "/bin/false"
+    comment: "dubair_exporter service user"
+
+- name: check if dubair_exporter service exists
+  tags:
+    - dubair_exporter
+  stat:
+    path: "/etc/systemd/system/dubair_exporter.service"
+  register: checked
+
+- name: stop dubair_exporter service if it exists
+  tags:
+    - dubair_exporter
+  when: checked.stat.exists
+  service:
+    name: dubair_exporter
+    state: stopped
+
+- name: copy dubair_exporter binary to {{ host_bin_path }}
+  tags:
+    - dubair_exporter
+  copy: src=dubair_exporter dest={{ host_bin_path }}/dubair_exporter
+
+- name: set permissions on dubair_exporter binary
+  tags:
+    - dubair_exporter
+  file:
+    path: "{{ host_bin_path }}/dubair_exporter"
+    owner: dubair_exporter
+    group: dubair_exporter
+    mode: 0755
+
+- name: create dubair_exporter systemd unit
+  tags:
+    - dubair_exporter
+  template:
+    src: dubair_exporter.service.j2
+    dest: "/etc/systemd/system/dubair_exporter.service"
+
+- name: reload systemd configurations
+  tags:
+    - dubair_exporter
+  command: "systemctl daemon-reload"
+
+- name: start dubair_exporter service
+  tags:
+    - dubair_exporter
+  service:
+    name: dubair_exporter
+    state: started
+    enabled: true
+
+- name: remove temporary files
+  tags:
+    - dubair_exporter
+  file:
+    path: "/tmp/dubair_exporter"
+    state: absent

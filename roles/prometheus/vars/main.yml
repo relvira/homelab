@@ -10,6 +10,9 @@ prometheus_jobs:
   - job: "apcupsd"
     targets:
       - "minerva:9162"
+  - job: "dubairport"
+    targets:
+      - "anton:2112"
   - job: "node"
     targets:
       - "anton:9100"
@@ -105,17 +108,19 @@ prometheus_jobs:
       - 8.8.8.8 # Google DNS
       - 1.1.1.1 # CF DNS
       - 45.90.28.152 # NextDNS
+      - 45.90.30.152 # NextDNS
       - ipv4-c012-mad001-ix.1.oca.nflxvideo.net # Netflix MAD
       - ipv4-c011-mad002-telefonicaes-isp.1.oca.nflxvideo.net # Netflix OCA Telefonica
       - ipv4-c035-mad001-ix.1.oca.nflxvideo.net # Netflix MAD
-      - mad07s09-in-f3.1e100.net # Google Edge - MAD
-      - minerva
+      - mad01s25-in-f21.1e100.net # Google Edge - MAD
+      - lb-140-82-121-2-fra.github.com # Github in FRA
+      - minerva # Minerva server in MAD
       - dub.etellez.net # DUB via public internet
+      - attic-ap # MAD attic access point
+      - livingroom-ap # MAD living room access point
+      - 192.168.1.1 # MAD-DUB edge-router.dub via tailscale
+      - 100.86.115.115 # Irene's house via tailscale
       - irene.etellez.net # Irene via public internet
-      - attic-ap
-      - livingroom-ap
-      - 192.168.1.1 # MAD-DUB edge-router.dub via wireguard
-      - 192.168.30.6 # DUB-MAD edge-router.dub via wireguard
     relabel_target: "anton:9115"
   - job: "coredns"
     targets:
