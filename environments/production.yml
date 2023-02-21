@@ -132,7 +132,7 @@ server:
         user: "homeassistant"
         group: "homeassistant"
     minerva:
-      apcupsd_battery_date: "09/26/2019"
+      apcupsd_battery_date: "10/21/2022"
       node_exporter_use_textfile: true
       docknet:
         interface: "enp5s0"
