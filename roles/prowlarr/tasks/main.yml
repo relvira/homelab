@@ -1,0 +1,26 @@
+---
+- file: path={{ prowlarr.config_path }} state=directory mode=0755 owner={{ transmission.process_uid }} recurse=true
+- name: prowlarr in docker
+  docker_container:
+    name: "{{ prowlarr.hostname }}"
+    hostname: "{{ prowlarr.hostname }}"
+    image: linuxserver/prowlarr
+    state: started
+    restart_policy: always
+    pull: true
+    purge_networks: yes
+    networks:
+        - name: "{{ prowlarr.network_name }}"
+          ipv4_address: "{{ prowlarr.ipaddr }}"
+    ports:
+        - 9696:9696
+    log_driver: syslog
+    log_opt:
+      tag: "prowlarr"
+    env:
+      PUID: "{{ transmission.process_uid }}"
+      PGID: "{{ transmission.process_gid }}"
+      TZ: "Europe/Madrid"
+    volumes:
+    - "{{ prowlarr.config_path }}:/config"
+    - "/etc/localtime:/etc/localtime"

@@ -17,7 +17,7 @@ prometheus_jobs:
     targets:
       - "anton:9100"
       - "minerva:9100"
-      - "milhouse.dub.home:9100"
+        #- "milhouse.dub.home:9100"
   - job: "prometheus"
     scrape_interval: "5s"
     targets:
@@ -27,11 +27,11 @@ prometheus_jobs:
     params:
       module: [if_mib]
     targets:
-      - "edge-router.dub.home"
-      - "livingroom-ap.dub.home"
-      - "office-ap.dub.home"
-      - "core-sw.dub.home"
-      - "utility-sw.dub.home"
+            #- "edge-router.dub.home"
+            #- "livingroom-ap.dub.home"
+            #- "office-ap.dub.home"
+            #- "core-sw.dub.home"
+            #- "utility-sw.dub.home"
       - "edge-router.mad.home"
       - "attic-ap.mad.home"
       - "livingroom-ap.mad.home"
@@ -84,7 +84,7 @@ prometheus_jobs:
     params:
       module: [ssh_banner]
     targets:
-      - "milhouse.dub.home:22"
+            #- "milhouse.dub.home:22"
       - "mad.etellez.net:22"
       - "irene.etellez.net:22"
       - "minerva:22"
@@ -115,17 +115,17 @@ prometheus_jobs:
       - mad01s25-in-f21.1e100.net # Google Edge - MAD
       - lb-140-82-121-2-fra.github.com # Github in FRA
       - minerva # Minerva server in MAD
-      - dub.etellez.net # DUB via public internet
+      - 28250.etellez.net # Torre 28250 via public internet
       - attic-ap # MAD attic access point
       - livingroom-ap # MAD living room access point
-      - 192.168.1.1 # MAD-DUB edge-router.dub via tailscale
+        #- 192.168.1.1 # MAD-DUB edge-router.dub via tailscale
       - 100.86.115.115 # Irene's house via tailscale
       - irene.etellez.net # Irene via public internet
     relabel_target: "anton:9115"
   - job: "coredns"
     targets:
       - "anton:9153"
-      - "milhouse.dub.home:9153"
+        #- "milhouse.dub.home:9153"
 prometheus_config: "/etc/prometheus"
 prometheus_data: "/var/lib/prometheus"
 prometheus_external_url: "https://prometheus.etellez.net"

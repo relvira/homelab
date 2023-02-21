@@ -199,6 +199,11 @@ server:
         config_path: "/storage/etc/radarr"
         ipaddr: "172.16.51.93"
         network_name: "privnet"
+      prowlarr:
+        hostname: "prowlarr"
+        config_path: "/storage/etc/prowlarr"
+        ipaddr: "172.16.51.96"
+        network_name: "privnet"
       jackett:
         hostname: "jackett"
         config_path: "/storage/etc/jackett"

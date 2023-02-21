@@ -16,5 +16,6 @@
     - redis
     - sonarr
     - radarr
+    - prowlarr
     - jackett
     - backups
